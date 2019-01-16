@@ -77,7 +77,9 @@ cd blog-react-app
 # 引入antd
 yarn add antd
 
-# 将配置暴露出来
+# 将webpack相关配置暴露出来
 yarn run eject
+
+#
 
 ```
