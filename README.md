@@ -103,3 +103,12 @@ yarn add babel-plugin-import --save-dev
   }
 ...
 ```
+
+### 路由与状态管理
+```
+yarn add react-router
+yarn add redux
+yarn add redux-saga
+
+```
+
