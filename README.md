@@ -67,19 +67,38 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
 
-
+---
 ### 项目搭建流程
+
+#### 创建项目
 ```
-# 创建项目
 react-create-app blog-react-app
 cd blog-react-app
+```
 
-# 引入antd
+#### 引入antd
+```
 yarn add antd
+```
 
+#### antd 组建按需加载
+```
 # 将webpack相关配置暴露出来
 yarn run eject
-
-#
-
+# 引入一个用于按需加载组件代码和样式的 babel 插件
+yarn add babel-plugin-import --save-dev
+```
+修改package.json
+```
+...
+  "babel": {
+    "presets": [
+      "react-app"
+-    ]
++    ],
++   "plugins": [
++      ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css" }]
++    ]
+  }
+...
 ```
