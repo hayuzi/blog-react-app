@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 // import logo from './logo.svg';
 // import { Button }from 'antd';
 import './App.css';
-import RouterConfig from "./Router";
+import RouterConfig from "@/Router";
 
 class App extends Component {
   render() {
