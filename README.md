@@ -104,11 +104,28 @@ yarn add babel-plugin-import --save-dev
 ...
 ```
 
-### 路由与状态管理
+#### 路由与状态管理
 ```
 yarn add react-router
 yarn add redux
 yarn add redux-saga
 
 ```
+
+#### webpack 配置 @ 路径别名
+```
+...
+  alias: {
+    // Support React Native Web
+    // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
+    'react-native': 'react-native-web',
+    '@': paths.appSrc,    // 加入这一行 功能其实就是后面这个：path.resolve('src'),   src的相对路径或者绝对路径要配置正确
+  },
+...
+
+```
+
+#### 路由配置。
+
+
 
