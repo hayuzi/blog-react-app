@@ -75,14 +75,19 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 ```
 react-create-app blog-react-app
 cd blog-react-app
+
+
 ```
 
-#### 引入antd
+#### 引入antd 和 ant design pro
 ```
 yarn add antd
+
+yarn add ant-design-pro@latest
+
 ```
 
-#### antd 组建按需加载
+#### antd 以及 ant-design-pro 组件按需加载
 ```
 # 将webpack相关配置暴露出来
 yarn run eject
@@ -98,7 +103,8 @@ yarn add babel-plugin-import --save-dev
 -    ]
 +    ],
 +   "plugins": [
-+      ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css" }]
++      ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css" }, "antd"]
++      ["import", { "libraryName": "ant-design-pro", "libraryDirectory": "lib", "style": true, "camel2DashComponentName": false }, "ant-design-pro"]
 +    ]
   }
 ...
@@ -125,7 +131,12 @@ yarn add redux-saga
 
 ```
 
-#### 路由配置。
+#### 引入less, 并且需要在 webpack中配置less-loader加载
+```
+yarn add less less-loader --dev
+```
+
+#### 路由配置
 
 
 
