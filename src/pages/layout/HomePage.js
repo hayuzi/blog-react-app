@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
-import NavBar from "../../components/layout/NavBar";
+import MiddleHeader from '@/components/layout/MiddleHeader';
 
 class HomePage extends Component {
   render() {
     return (
-      <NavBar />
+      <div>
+        <MiddleHeader />
+      </div>
     );
   }
 }
