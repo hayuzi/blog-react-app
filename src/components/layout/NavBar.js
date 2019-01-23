@@ -17,7 +17,7 @@ class NavBar extends Component {
                 style={{ lineHeight:"60px" }}
               >
                 <Menu.Item key="navIndex"><b style={{ fontSize:"16px" }}>&nbsp;&nbsp;首 页&nbsp;&nbsp;</b></Menu.Item>
-                <Menu.Item key="navTags"><b style={{ fontSize:"16px" }}>&nbsp;&nbsp;标 签&nbsp;&nbsp;</b></Menu.Item>
+                {/*<Menu.Item key="navTags"><b style={{ fontSize:"16px" }}>&nbsp;&nbsp;标 签&nbsp;&nbsp;</b></Menu.Item>*/}
               </Menu>
             </div>
 
