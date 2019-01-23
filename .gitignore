@@ -1,1 +1,6 @@
+# IDE
 .idea
+
+# common
+node_modules
+yarn.lock
