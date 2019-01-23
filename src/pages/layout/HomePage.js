@@ -1,11 +1,15 @@
 import React, {Component} from 'react';
-import MiddleHeader from '@/components/layout/MiddleHeader';
+import Header from '@/components/layout/Header';
+import Main from '@/components/layout/Main';
+import Footer from '@/components/layout/Footer'
 
 class HomePage extends Component {
   render() {
     return (
       <div>
-        <MiddleHeader />
+        <Header />
+        <Main />
+        <Footer />
       </div>
     );
   }

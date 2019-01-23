@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import NavBar from '@/components/layout/NavBar';
-import styles from '@/components/layout/MiddleHeader.module.less';
+import styles from '@/components/layout/Header.module.less';
 
 class Header extends Component {
   render() {
