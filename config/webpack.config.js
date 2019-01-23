@@ -458,6 +458,9 @@ module.exports = function (webpackEnv) {
                 'sass-loader'
               ),
             },
+            // Opt-in support for LESS (using .scss or .less extensions).
+            // By default we support LESS Modules with the
+            // extensions .module.less or .module.less
             {
               test: lessRegex,
               exclude: lessModuleRegex,
@@ -474,6 +477,8 @@ module.exports = function (webpackEnv) {
               // See https://github.com/webpack/webpack/issues/6571
               sideEffects: true,
             },
+            // Adds support for CSS Modules, but using LESS
+            // using the extension .module.less or .module.less
             {
               test: lessModuleRegex,
               use: getStyleLoaders(

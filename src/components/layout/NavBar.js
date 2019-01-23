@@ -1,16 +1,18 @@
 import React, {Component} from 'react';
 import {Menu} from 'antd';
-import styles from './NavBar.less';
+import styles from './NavBar.module.less';
+import sty from './NavBar.module.scss';
 import logo from '@/logo.svg';
 
 class NavBar extends Component {
   render() {
-    console.log(styles);
+    console.log(styles.navBar);
+    console.log(sty);
 
     return (
-      <div className="navBar">
-        <div className="logo">
-          <img src={logo} className="logoImg" alt="logo"/>
+      <div className={ styles.navBar }>
+        <div className={ styles.logo }>
+          <img src={logo} className={ styles.logoImg } alt="logo"/>
         </div>
         <Menu
           mode="horizontal"

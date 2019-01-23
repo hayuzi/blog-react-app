@@ -71,7 +71,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 ---
 ### 项目搭建流程
 
-#### 创建项目
+#### 创建项目（ react-create-app 2.0配置 ）
 ```
 react-create-app blog-react-app
 cd blog-react-app
@@ -134,6 +134,50 @@ yarn add redux-saga
 #### 引入less, 并且需要在 webpack中配置less-loader加载
 ```
 yarn add less less-loader --dev
+```
+
+```
+
+
+// webpack.js 中找到 SASS相对应的位置， 加入如下的LESS配置
+lessRegex 与 lessModuleRegex 参考 SASS的写法
+
+
+// Opt-in support for LESS (using .scss or .less extensions).
+// By default we support LESS Modules with the
+// extensions .module.less or .module.less
+{
+  test: lessRegex,
+  exclude: lessModuleRegex,
+  use: getStyleLoaders(
+    {
+      importLoaders: 2,
+      sourceMap: isEnvProduction && shouldUseSourceMap,
+    },
+    'less-loader'
+  ),
+  // Don't consider CSS imports dead code even if the
+  // containing package claims to have no side effects.
+  // Remove this when webpack adds a warning or an error for this.
+  // See https://github.com/webpack/webpack/issues/6571
+  sideEffects: true,
+},
+// Adds support for CSS Modules, but using LESS
+// using the extension .module.less or .module.less
+// 此处按照描述，模块化CSS的用法在 less中必须给less文件使用 .module.less 后缀
+{
+  test: lessModuleRegex,
+  use: getStyleLoaders(
+    {
+      importLoaders: 2,
+      sourceMap: isEnvProduction && shouldUseSourceMap,
+      modules: true,
+      getLocalIdent: getCSSModuleLocalIdent,
+    },
+    'less-loader'
+  ),
+},
+
 ```
 
 #### 路由配置
