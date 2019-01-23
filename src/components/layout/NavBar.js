@@ -1,14 +1,10 @@
 import React, {Component} from 'react';
 import {Menu} from 'antd';
 import styles from './NavBar.module.less';
-import sty from './NavBar.module.scss';
 import logo from '@/logo.svg';
 
 class NavBar extends Component {
   render() {
-    console.log(styles.navBar);
-    console.log(sty);
-
     return (
       <div className={ styles.navBar }>
         <div className={ styles.logo }>

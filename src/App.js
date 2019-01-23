@@ -6,7 +6,9 @@ import '@/App.css';
 class App extends Component {
   render() {
     return (
-      <RouterConfig />
+      <div className="App">
+        <RouterConfig />
+      </div>
     );
   }
 }
