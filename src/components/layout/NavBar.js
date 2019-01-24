@@ -26,7 +26,9 @@ class NavBar extends Component {
                 </Menu.Item>
                 <Menu.Item key="navTags">
                   <NavLink to={{pathname: "/search"}}>
-                    <b style={{fontSize: "16px"}}>&nbsp;&nbsp;搜 索&nbsp;&nbsp;</b>
+                    <b style={{fontSize: "16px"}}>
+                      &nbsp;&nbsp;搜 索&nbsp;&nbsp;
+                    </b>
                   </NavLink>
                 </Menu.Item>
               </Menu>
@@ -45,7 +47,7 @@ class NavBar extends Component {
         </div>
 
         <div className={styles.right}>
-          <span>hayuzi&nbsp;&nbsp;的个人博客</span>
+          <span>hayuzi&nbsp;的个人博客</span>
         </div>
       </div>
     );
