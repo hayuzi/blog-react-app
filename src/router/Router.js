@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import NotFound from '@/pages/NotFound';
 import Login from '../pages/User/Login';
-import BasicLayout from "@/pages/layout/BasicLayout";
+import BasicLayout from "@/components/layout/BasicLayout";
 import IndexPage from "@/pages/IndexPage";
 import SearchPage from "@/pages/frontend/article/SearchPage";
 
