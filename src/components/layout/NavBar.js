@@ -34,7 +34,7 @@ class NavBar extends Component {
         </div>
 
         <div className={styles.right}>
-          <span>...</span>
+          <span>hayuzi&nbsp;&nbsp;的个人博客</span>
         </div>
       </div>
     );
