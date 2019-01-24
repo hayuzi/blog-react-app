@@ -1,20 +1,48 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import IndexPage from '@/pages/IndexPage';
 import NotFound from '@/pages/NotFound';
-import HomePage from "@/pages/layout/HomePage";
 import Login from '../pages/User/Login';
+import BasicLayout from "@/pages/layout/BasicLayout";
+import IndexPage from "@/pages/IndexPage";
+import SearchPage from "@/pages/frontend/article/SearchPage";
+
+
+const LayoutBox = ({ match }) => {
+  if (match.url === '/') {
+    match.url = '';
+  }
+  return (
+    <BasicLayout>
+      <Switch>
+        <Route exact path={`${match.url}/`} component={ IndexPage }/>
+        <Route exact path={`${match.url}/index`} component={ IndexPage }/>
+        <Route exact path={`${match.url}/search`} component={ SearchPage }/>
+        <Route exact path="/404" component={ NotFound } />
+        <Route exact component={ NotFound } />
+      </Switch>
+    </BasicLayout>
+  );
+};
+
 
 class RouterConfig extends Component {
   render() {
     return (
       <Router>
         <Switch>
-          <Route path="/login" component={ Login } />
-          <Route exact path="/" component={ IndexPage } />
-          <Route exact path="/index" component={ HomePage } />
-          <Route exact path="/404" component={ NotFound } />
-          <Route component={ NotFound } />
+          <Route path="/auth">
+            <Switch>
+              <Route exact path="/auth/login" component={ Login }/>
+              <Route exact component={ NotFound }/>
+            </Switch>
+          </Route>
+          <Route path="/admin">
+            <Switch>
+              <Route exact path="/admin/login" component={ Login }/>
+              <Route exact component={ NotFound }/>
+            </Switch>
+          </Route>
+          <Route path="/" component={ LayoutBox } />
         </Switch>
       </Router>
     );
