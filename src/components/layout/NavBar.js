@@ -43,7 +43,6 @@ class NavBar extends Component {
               <img src={logo} className={styles.logoImg} alt="logo"/>
             </div>
           </div>
-
         </div>
 
         <div className={styles.right}>
