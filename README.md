@@ -113,6 +113,7 @@ yarn add babel-plugin-import --save-dev
 #### 路由与状态管理
 ```
 yarn add react-router
+yarn add react-redux
 yarn add redux
 yarn add redux-saga
 
@@ -178,6 +179,29 @@ lessRegex 与 lessModuleRegex 参考 SASS的写法
   ),
 },
 
+```
+
+
+#### 使用装饰器语法解析
+
+```
+# 安装
+yarn add babel-plugin-transform-decorators-legacy --dev
+
+# 配置 package.json 注意：babel 7.0以上版本配置与之前不同：如下
+"babel": {
+  "presets": [
+    "react-app"
+  ],
+  "plugins": [
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        "legacy": true
+      }
+    ]
+  ]
+},
 ```
 
 #### 路由配置

@@ -1,8 +1,13 @@
-import React, {Component} from 'react';
-import { Row, Col } from 'antd';
+import React, {PureComponent} from 'react';
+import {Row, Col} from 'antd';
+import connect from '@/store/connect';
 
-class SearchPage extends Component {
+@connect(({user}) => ({
+  user,
+}))
+class SearchPage extends PureComponent {
   render() {
+    console.log(this.props);
     return (
       <Row>
         <Col span={24}>

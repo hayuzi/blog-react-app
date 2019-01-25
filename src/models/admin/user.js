@@ -1,4 +1,4 @@
-import {call, put, takeEvery} from 'redux-saga/effects';     // 引入相关函数
+// import {call, put, takeEvery} from 'redux-saga/effects';     // 引入相关函数
 
 export default {
 
@@ -12,14 +12,29 @@ export default {
   },
 
   effects: {
-    *fetch({ payload }, { call, put }) {  // eslint-disable-line
-      yield put({ type: 'save' });
+    *login({ payload }, { call, put }) {  // eslint-disable-line
+      const response = yield call(function () {
+        setTimeout('',1000);
+        return {
+          id: 10,
+          username: 10,
+          token: "xxxxxxxxxxxxx",
+        };
+      }, payload);
+      yield put({
+        type: 'changeLoginStatus',
+        payload: response,
+      });
     },
   },
 
   reducers: {
-    save(state, action) {
-      return { ...state, ...action.payload };
+    changeLoginStatus(state, action) {
+      return {  ...state,
+        status: action.payload.id,
+        type: action.payload.username,
+        token: action.payload.token,
+      };
     },
   },
 

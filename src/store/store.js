@@ -19,11 +19,10 @@ function parseModelData(models) {
     console.log(key, models[key]);
 
     if (models[key].namespace && models[key].namespace !== '') {
-      stateAll[(models[key].namespace + '/' + key)] = models[key].state;
-      reducerAll[(models[key].namespace + '/' + key)] = models[key].reducers;
+      stateAll[models[key].namespace] = models[key].state;
+      reducerAll[models[key].namespace] = models[key].reducers;
     } else {
-      stateAll[key] = models[key].state;
-      reducerAll[key] = models[key].reducers;
+      throw 'model: ' + key + "'s namespace not defined";
     }
   });
 };
