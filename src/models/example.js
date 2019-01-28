@@ -1,4 +1,4 @@
-import {call, put, takeEvery} from 'redux-saga/effects';     // 引入相关函数
+// import {call, put, takeEvery} from 'redux-saga/effects';     // 引入相关函数
 
 
 export default {

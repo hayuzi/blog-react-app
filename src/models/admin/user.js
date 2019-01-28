@@ -4,7 +4,11 @@ export default {
 
   namespace: 'user',
 
-  state: {},
+  state: {
+    id: 0,
+    username: '',
+    token: '',
+  },
 
   subscriptions: {
     setup({ dispatch, history }) {  // eslint-disable-line
@@ -13,8 +17,8 @@ export default {
 
   effects: {
     *login({ payload }, { call, put }) {  // eslint-disable-line
+      console.log(12312);
       const response = yield call(function () {
-        setTimeout('',1000);
         return {
           id: 10,
           username: 10,
@@ -30,11 +34,8 @@ export default {
 
   reducers: {
     changeLoginStatus(state, action) {
-      return {  ...state,
-        status: action.payload.id,
-        type: action.payload.username,
-        token: action.payload.token,
-      };
+      console.log(action);
+      return {  ...state,};
     },
   },
 
