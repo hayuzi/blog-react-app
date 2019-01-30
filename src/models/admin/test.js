@@ -2,7 +2,7 @@
 
 export default {
 
-  namespace: 'user',
+  namespace: 'test',
 
   state: {
     id: 0,
@@ -17,6 +17,8 @@ export default {
 
   effects: {
     *login({ payload }, { call, put }) {  // eslint-disable-line
+      console.log(payload);
+      console.log(call, put);
       const response = yield call(function () {
         return {
           id: 10,
@@ -24,24 +26,21 @@ export default {
           token: "xxxxxxxxxxxxx",
         };
       }, payload);
+      console.log(123123);
+
       yield put({
-        type: 'user/changeLoginStatus',
+        type: 'changeLoginStatus',
         payload: response,
       });
-      console.log(response);
+      console.log(55555);
     },
   },
 
   reducers: {
-    changeLoginStatus(state, payload) {
+    changeLoginStatus(state, action) {
+      console.log(action);
       console.log(state);
-      console.log(payload);
-      return {
-        ...state,
-        id: payload.id,
-        username: payload.username,
-        token: payload.token,
-      };
+      return {  ...state, };
     },
   },
 

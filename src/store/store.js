@@ -3,13 +3,16 @@
  */
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import createSagaMiddleware from 'redux-saga';       // 引入redux-saga中的createSagaMiddleware函数
+import {call, put, takeEvery} from 'redux-saga/effects';
 import models from '@/models';
 
 const sagaMiddleware = createSagaMiddleware();        // 执行
 
 const reducerAll = {};
 const stateAll = {};
-export const effectsAll = {};
+const appSaga = {};
+appSaga.takes = [];
+
 
 /**
  * 遍历解构models, 分离默认state数据以及 reducer ( 类似于dva的简单封装 )
@@ -24,34 +27,51 @@ function parseModelData(models) {
       stateAll[models[key].namespace] = models[key].state;
 
       // 命名空间下的reducer聚合
-      reducerAll[models[key].namespace] = function(state, action){
-        let result = { ...state };
+      reducerAll[models[key].namespace] = function (state, action) {
+        let result = {...state};
         Object.keys(models[key].reducers).forEach(function (reducer) {
-          if (action.type === reducer) {
-            result = models[key].reducers[reducer](state,action.payload);
+          if (action.type === (models[key].namespace + '/' + reducer)) {
+            result = models[key].reducers[reducer](state, action.payload);
+          }
+        });
+
+        // 异步reducer
+        Object.keys(models[key].effects).forEach(function (reducer) {
+          if (action.type === (models[key].namespace + '/' + reducer)) {
+            console.log(action);
+            models[key].effects[reducer](action, {call, put});
           }
         });
         return result;
       };
 
-      // 异步reducer, Actions
-      Object.keys(models[key].effects).forEach(function (effect) {
-        effectsAll[models[key].namespace + '/' + effect] = models[key].effects[effect];
+      // saga监听
+      Object.keys(models[key].effects).forEach(function (reducer) {
+        appSaga.takes.push({
+          pattern: models[key].namespace + '/' + reducer,
+          saga: models[key].effects[reducer]
+        });
       });
 
     } else {
       // eslint-disable-next-line
-      throw {
-        message: 'model: ' + key + "'s namespace not defined",
-        name: 'namespacenotfound'
-      };
+      throw new Error("model: " + key + "'s namespace not defined");
     }
   });
 }
+
 parseModelData(models);
 
-// console.log(reducerAll);
-// console.log(stateAll);
+
+// 创建saga监听
+function* rootSaga() {
+  const len = appSaga.takes.length;
+  console.log(appSaga.takes[0].pattern);
+  console.log(action => appSaga.takes[0].saga(action, {call, put}));
+  for (let i = 0; i < len; i++) {
+    yield takeEvery(appSaga.takes[i].pattern, action => appSaga.takes[i].saga(action, {call, put}));
+  }
+}
 
 // 创建store
 export const store = createStore(
@@ -59,5 +79,6 @@ export const store = createStore(
   stateAll, // 对应reducer的默认state
   applyMiddleware(sagaMiddleware) // 中间件，加载sagaMiddleware
 );
+sagaMiddleware.run(rootSaga);
 
 export default store;

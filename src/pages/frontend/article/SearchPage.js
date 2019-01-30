@@ -10,10 +10,9 @@ class SearchPage extends Component {
   changeUserInfo = () => {
     console.log(this.props);
     const { dispatch } = this.props;
-    // console.log(dispatch);
     dispatch({
-      type: 'user',
-      payload: {},
+      type: 'user/login',
+      payload: { test: "user"},
     });
   };
 
