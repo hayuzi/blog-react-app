@@ -16,15 +16,27 @@ export default {
   },
 
   effects: {
-    *login({ payload }, { call, put }) {  // eslint-disable-line
-      console.log(payload);
-      console.log(call, put);
-      const response = yield call(function () {
-        return {
-          id: 10,
-          username: 10,
-          token: "xxxxxxxxxxxxx",
-        };
+    *testEffect({ payload }, { call, put }) {  // eslint-disable-line
+
+      console.log('test effect start');
+
+      const response = yield call(function (payload) {
+        console.log("exec call");
+        return new Promise(function(resolve, reject){
+          //做一些异步操作
+          setTimeout(function(){
+            console.log('执行完成le ma ');
+            console.log(payload);
+            resolve({
+              id: 1,
+              username: 'test1',
+              token: "hhehda",
+            });
+          }, 2000);
+        }).then(function (res){
+          console.log(res);
+          return res;
+        });
       }, payload);
       console.log(123123);
 

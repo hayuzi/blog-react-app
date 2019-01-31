@@ -3,7 +3,7 @@
  */
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import createSagaMiddleware from 'redux-saga';       // 引入redux-saga中的createSagaMiddleware函数
-import {call, put, takeEvery} from 'redux-saga/effects';
+import * as sagaEffects from 'redux-saga/effects';
 import models from '@/models';
 
 const sagaMiddleware = createSagaMiddleware();        // 执行
@@ -28,22 +28,23 @@ function parseModelData(models) {
 
       // 命名空间下的reducer聚合
       reducerAll[models[key].namespace] = function (state, action) {
+
         let result = {...state};
         Object.keys(models[key].reducers).forEach(function (reducer) {
           if (action.type === (models[key].namespace + '/' + reducer)) {
-            result = models[key].reducers[reducer](state, action.payload);
+            result = models[key].reducers[reducer](state, action);
           }
         });
 
         // 异步reducer
-        Object.keys(models[key].effects).forEach(function (reducer) {
-          if (action.type === (models[key].namespace + '/' + reducer)) {
-            models[key].effects[reducer](action, {
-              call, function ({type, payload}) {
-                // 重写put方法
-                put(models[key].namespace + '/' + type, payload);
-              }
-            });
+        Object.keys(models[key].effects).forEach(function (effect) {
+          if (action.type === (models[key].namespace + '/' + effect)) {
+            console.log(action);
+            console.log('effect second');
+            models[key].effects[effect](action, { call: sagaEffects.call , put: action => {
+                const { type } = action;
+                return sagaEffects.put({ ...action, type: models[key].namespace + '/' + type });
+            }})
           }
         });
         return result;
@@ -52,6 +53,7 @@ function parseModelData(models) {
       // saga监听
       Object.keys(models[key].effects).forEach(function (reducer) {
         appSaga.takes.push({
+          prefixType: models[key].namespace + '/',
           pattern: models[key].namespace + '/' + reducer,
           saga: models[key].effects[reducer]
         });
@@ -68,13 +70,20 @@ parseModelData(models);
 
 
 // 创建saga监听
+// 一些注意点: call() 的方法必须是 一个Generator函数, 或者是一个返回Promise或任意其它值的普通函数。
 function* rootSaga() {
-  const len = appSaga.takes.length;
-  console.log(appSaga.takes[0].pattern);
-  console.log(action => appSaga.takes[0].saga(action, {call, put}));
-  for (let i = 0; i < len; i++) {
-    yield takeEvery(appSaga.takes[i].pattern, action => appSaga.takes[i].saga(action, {call, put}));
-  }
+  appSaga.watcher = [];
+  appSaga.takes.forEach(function(tak) {
+    appSaga.watcher.push( function* () {
+      yield sagaEffects.takeEvery(tak.pattern, action => tak.saga(action, {call: sagaEffects.call, put: action => {
+        const { type } = action;
+        return sagaEffects.put({ ...action, type: tak.prefixType + type });
+      }}))
+    }());
+  });
+
+  // 监听所有effects.
+  yield sagaEffects.all(appSaga.watcher);
 }
 
 // 创建store

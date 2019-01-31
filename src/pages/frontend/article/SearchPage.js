@@ -8,16 +8,21 @@ import connect from '@/store/connect';
 class SearchPage extends Component {
 
   changeUserInfo = () => {
-    console.log(this.props);
+    // console.log(this.props);
     const { dispatch } = this.props;
     dispatch({
       type: 'user/login',
-      payload: { test: "user"},
+      payload: { user: "user"},
+    });
+
+    console.log('time test');
+    dispatch({
+      type: 'user/test',
+      payload: { user: "test"},
     });
   };
 
   render() {
-    console.log(this.props);
     const { user } = this.props;
     return (
       <Row>
