@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Menu} from 'antd';
 import styles from './NavBar.module.less';
+import {NavLink} from 'react-router-dom';
 import logo from '@/logo.svg';
 
 class NavBar extends Component {
@@ -14,10 +15,22 @@ class NavBar extends Component {
               <Menu
                 mode="horizontal"
                 defaultSelectedKeys={['2']}
-                style={{ lineHeight:"60px" }}
+                style={{lineHeight: "60px"}}
               >
-                <Menu.Item key="navIndex"><b style={{ fontSize:"16px" }}>&nbsp;&nbsp;首 页&nbsp;&nbsp;</b></Menu.Item>
-                {/*<Menu.Item key="navTags"><b style={{ fontSize:"16px" }}>&nbsp;&nbsp;标 签&nbsp;&nbsp;</b></Menu.Item>*/}
+                <Menu.Item key="navIndex">
+                  <NavLink to={{pathname: "/"}}>
+                    <b style={{fontSize: "16px"}}>
+                      &nbsp;&nbsp;首 页&nbsp;&nbsp;
+                    </b>
+                  </NavLink>
+                </Menu.Item>
+                <Menu.Item key="navTags">
+                  <NavLink to={{pathname: "/search"}}>
+                    <b style={{fontSize: "16px"}}>
+                      &nbsp;&nbsp;搜 索&nbsp;&nbsp;
+                    </b>
+                  </NavLink>
+                </Menu.Item>
               </Menu>
             </div>
 
@@ -30,11 +43,10 @@ class NavBar extends Component {
               <img src={logo} className={styles.logoImg} alt="logo"/>
             </div>
           </div>
-
         </div>
 
         <div className={styles.right}>
-          <span>...</span>
+          <span>hayuzi&nbsp;的个人博客</span>
         </div>
       </div>
     );
