@@ -10,21 +10,16 @@ export default {
     token: '',
   },
 
-  subscriptions: {
-    setup({ dispatch, history }) {  // eslint-disable-line
-    },
-  },
-
   effects: {
-    *testEffect({ payload }, { call, put }) {  // eslint-disable-line
+    * testEffect({payload}, {call, put}) {  // eslint-disable-line
 
       console.log('test effect start');
 
       const response = yield call(function (payload) {
         console.log("exec call");
-        return new Promise(function(resolve, reject){
+        return new Promise(function (resolve, reject) {
           //做一些异步操作
-          setTimeout(function(){
+          setTimeout(function () {
             console.log('执行完成le ma ');
             console.log(payload);
             resolve({
@@ -33,9 +28,6 @@ export default {
               token: "hhehda",
             });
           }, 2000);
-        }).then(function (res){
-          console.log(res);
-          return res;
         });
       }, payload);
       console.log(123123);
@@ -52,7 +44,7 @@ export default {
     changeLoginStatus(state, action) {
       console.log(action);
       console.log(state);
-      return {  ...state, };
+      return {...state,};
     },
   },
 

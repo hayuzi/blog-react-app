@@ -9,11 +9,6 @@ export default {
     loading: true,
   },
 
-  subscriptions: {
-    setup({dispatch, history}) {  // eslint-disable-line
-    },
-  },
-
   effects: {
     *login({payload}, {call, put}) {  // eslint-disable-line
       const response = yield call(function (payload) {

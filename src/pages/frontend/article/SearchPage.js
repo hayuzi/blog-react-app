@@ -8,7 +8,6 @@ import connect from '@/store/connect';
 class SearchPage extends Component {
 
   changeUserInfo = () => {
-    console.log(this.props);
     const { dispatch } = this.props;
     dispatch({
       type: 'user/login',
