@@ -1,4 +1,4 @@
-// import {call, put, takeEvery} from 'redux-saga/effects';     // 引入相关函数
+// 写完的model必须导入到 models/index 中
 
 export default {
 

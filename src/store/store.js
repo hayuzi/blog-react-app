@@ -1,5 +1,5 @@
 /**
- * redux入口
+ * redux入口 简单模拟了 dva的数据处理模式
  */
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import createSagaMiddleware from 'redux-saga';       // 引入redux-saga中的createSagaMiddleware函数
@@ -36,11 +36,9 @@ function parseModelData(models) {
           }
         });
 
-        // 异步reducer
+        // 异步reducer, 即effect
         Object.keys(models[key].effects).forEach(function (effect) {
           if (action.type === (models[key].namespace + '/' + effect)) {
-            console.log(action);
-            console.log('effect second');
             models[key].effects[effect](action, { call: sagaEffects.call , put: action => {
                 const { type } = action;
                 return sagaEffects.put({ ...action, type: models[key].namespace + '/' + type });
@@ -75,7 +73,7 @@ function* rootSaga() {
   appSaga.watcher = [];
   appSaga.takes.forEach(function(tak) {
     appSaga.watcher.push( function* () {
-      yield sagaEffects.takeEvery(tak.pattern, action => tak.saga(action, {call: sagaEffects.call, put: action => {
+      yield sagaEffects.takeLatest(tak.pattern, action => tak.saga(action, {call: sagaEffects.call, put: action => {
         const { type } = action;
         return sagaEffects.put({ ...action, type: tak.prefixType + type });
       }}))
