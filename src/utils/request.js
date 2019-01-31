@@ -18,7 +18,7 @@ const codeMessage = {
   504: '网关超时。',
 };
 
-const checkStatus = response => {
+export const checkStatus = response => {
   if (response.status >= 200 && response.status < 300) {
     return response;
   }
@@ -34,17 +34,11 @@ const checkStatus = response => {
   throw error;
 };
 
-export default function request(url, {method, body}) {
+export default function request(url, option) {
   const newOption = {
-    method: method ? method : 'get',
-    body: body ? body : {},
+    method: option && option.method ? option.method : 'get',
+    body: option && option ? option.body : null,
   };
-  return axiosRequest(url, newOption).then(checkStatus)
-    .then(res => {
-      console.log(res);
-      return res;
-    })
-    .catch(err => {
-
-    })
+  console.log(url, newOption);
+  return axiosRequest(url, newOption);
 }
