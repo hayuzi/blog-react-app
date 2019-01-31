@@ -25,17 +25,14 @@ export default {
         };
       }, payload);
       yield put({
-        type: 'user/changeLoginStatus',
+        type: 'changeLoginStatus',
         payload: response,
       });
-      console.log(response);
     },
   },
 
   reducers: {
     changeLoginStatus(state, payload) {
-      console.log(state);
-      console.log(payload);
       return {
         ...state,
         id: payload.id,

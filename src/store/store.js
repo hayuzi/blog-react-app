@@ -38,8 +38,12 @@ function parseModelData(models) {
         // 异步reducer
         Object.keys(models[key].effects).forEach(function (reducer) {
           if (action.type === (models[key].namespace + '/' + reducer)) {
-            console.log(action);
-            models[key].effects[reducer](action, {call, put});
+            models[key].effects[reducer](action, {
+              call, function ({type, payload}) {
+                // 重写put方法
+                put(models[key].namespace + '/' + type, payload);
+              }
+            });
           }
         });
         return result;
