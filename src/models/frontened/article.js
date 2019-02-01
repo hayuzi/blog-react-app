@@ -1,5 +1,4 @@
 // 写完的model必须导入到 models/index 中
-
 import {getArticleList} from "@/services/api";
 
 export default {
@@ -16,7 +15,7 @@ export default {
 
   effects: {
     *fetchList({ payload }, { call, put }) {  // eslint-disable-line
-      const response = yield call(getArticleList(payload));
+      const response = yield call(getArticleList, {zone_id:21});
       yield put({
         type: 'saveListData',
         payload: response,
