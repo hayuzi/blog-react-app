@@ -64,7 +64,7 @@ export default function request(url, option) {
     .then(checkStatus)
     .then(res => {
       console.log(res);
-      return res;
+      return res.data;
     })
     .catch(err => {
       console.log(err);

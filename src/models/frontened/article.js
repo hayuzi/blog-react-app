@@ -15,7 +15,7 @@ export default {
 
   effects: {
     *fetchList({ payload }, { call, put }) {  // eslint-disable-line
-      const response = yield call(getArticleList, {zone_id:21});
+      const response = yield call(getArticleList, payload);
       yield put({
         type: 'saveListData',
         payload: response,
