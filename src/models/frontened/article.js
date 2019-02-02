@@ -25,7 +25,12 @@ export default {
 
   reducers: {
     saveListData(state, action) {
-      return { ...state, ...action.payload };
+      return {
+        ...state,
+        listData : {
+          lists: action.payload.data.lists,
+        }
+      };
     },
   },
 

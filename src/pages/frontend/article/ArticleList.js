@@ -1,20 +1,7 @@
 import React, {Component} from 'react';
-import {withRouter} from "react-router-dom";
+import {withRouter, NavLink} from "react-router-dom";
 import {Row, Col, List, Icon} from 'antd';
 import connect from '@/store/connect';
-
-
-const listData = [];
-for (let i = 0; i < 23; i++) {
-  listData.push({
-    href: 'http://ant.design',
-    title: `ant design part ${i}`,
-    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-    description: 'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-    content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-  });
-}
-
 
 const IconText = ({type, text}) => (
   <span>
@@ -62,6 +49,7 @@ class ArticleList extends Component {
   render() {
     const {article} = this.props;
     console.log(article);
+    const articleLists = article.listData.lists;
     return (
       <Row>
         <Col span={24}>
@@ -74,7 +62,7 @@ class ArticleList extends Component {
               },
               pageSize: 20,
             }}
-            dataSource={listData}
+            dataSource={articleLists}
             footer={<div><b>ant design</b> footer part</div>}
             renderItem={item => (
               <List.Item
@@ -83,7 +71,7 @@ class ArticleList extends Component {
                   <IconText type="message" text="2"/>]}
               >
                 <List.Item.Meta
-                  title={<a href={item.href}>{item.title}</a>}
+                  title={<NavLink to={{pathname: '/article/detail', state: { id: item.id }}}>{item.title}</NavLink>}
                   description={item.description}
                 />
                 {item.content}
