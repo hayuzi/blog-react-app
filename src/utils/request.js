@@ -34,11 +34,42 @@ export const checkStatus = response => {
   throw error;
 };
 
+/**
+ * 默认请求方法
+ * @param url
+ * @param option
+ * @returns {Promise<T>}
+ */
 export default function request(url, option) {
-  const newOption = {
-    method: option && option.method ? option.method : 'get',
-    body: option && option ? option.body : null,
-  };
-  console.log(url, newOption);
-  return axiosRequest(url, newOption);
+
+  const newOption = {};
+  const method = (option && option.method ? option.method : 'get').toLowerCase();
+  newOption.method = method;
+  switch (method) {
+    case 'post':
+    case 'put':
+      newOption.params = {};
+      newOption.body = option.params;
+      break;
+    case 'get':
+    case 'delete':
+    default:
+      newOption.params = option.params;
+      newOption.body = {};
+      break;
+  }
+
+  // 提交请求, 并返回Promise供call调用
+  return axiosRequest(url, newOption)
+    .then(checkStatus)
+    .then(res => {
+      console.log(res);
+      return res.data;
+    })
+    .catch(err => {
+      console.log(err);
+      // TODO 处理异常
+      return;
+    });
+
 }
