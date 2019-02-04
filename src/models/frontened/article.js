@@ -9,6 +9,9 @@ export default {
     detail: {},
     listData: {
       lists: [],
+      pageNum: 1,
+      total: 0,
+      pageSize: 10,
     },
     loading: false,
   },
@@ -29,6 +32,9 @@ export default {
         ...state,
         listData : {
           lists: action.payload.data.lists,
+          pageNum: action.payload.data.pageNum,
+          total: action.payload.data.total,
+          pageSize: action.payload.data.pageSize,
         }
       };
     },

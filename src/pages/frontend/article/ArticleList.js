@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {withRouter, NavLink} from "react-router-dom";
-import {Row, Col, List, Icon} from 'antd';
+import {Row, Col, List, Icon, Pagination} from 'antd';
 import connect from '@/store/connect';
 
 const IconText = ({type, text}) => (
@@ -31,37 +31,41 @@ class ArticleList extends Component {
     });
   };
 
+  onPageChange = (pageNumber) =>
+  {
+    const q = this.state.q;
+    const params = {
+      q,
+      pageNum: pageNumber,
+    };
+    this.getArticleList(params)
+  }
+
   componentDidMount() {
-    const {location, article} = this.props;
+    const {location} = this.props;
     const q = location.state && location.state.q ? location.state.q : '';
     this.setState((state) => {
       return { ...state, q };
     });
+    console.log(this.state);
     const params = {
       q,
     };
-    console.log(article);
-    console.log(params);
     this.getArticleList(params)
   }
 
 
   render() {
     const {article} = this.props;
-    console.log(article);
     const articleLists = article.listData.lists;
+    const currentPage = article.listData.pageNum;
+    const totalCnt = article.listData.total;
     return (
       <Row>
         <Col span={24}>
           <List
             itemLayout="vertical"
             size="large"
-            pagination={{
-              onChange: (page) => {
-                console.log(page);
-              },
-              pageSize: 20,
-            }}
             dataSource={articleLists}
             footer={<div><b>ant design</b> footer part</div>}
             renderItem={item => (
@@ -72,12 +76,16 @@ class ArticleList extends Component {
               >
                 <List.Item.Meta
                   title={<NavLink to={{pathname: '/article/detail', state: { id: item.id }}}>{item.title}</NavLink>}
-                  description={item.description}
+                  description={item.sketch}
                 />
                 {item.content}
               </List.Item>
             )}
           />
+        </Col>
+
+        <Col>
+          <Pagination showQuickJumper defaultCurrent={currentPage} total={totalCnt} onChange={this.onPageChange} />
         </Col>
 
       </Row>
