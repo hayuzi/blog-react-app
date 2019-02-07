@@ -28,7 +28,7 @@ class SearchForm extends Component {
 
   handleSearchSubmit = (value) => {
     this.getArticleList({q:value });
-    this.props.history.push({pathname: "/", search: "q=" + value, state: {q: value}});
+    this.props.history.push({pathname: "/", search: "q=" + value});
   };
 
   render() {

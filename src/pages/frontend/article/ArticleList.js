@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {withRouter, NavLink} from "react-router-dom";
 import {Row, Col, List, Icon, Pagination} from 'antd';
 import connect from '@/store/connect';
+import {parseQueryString} from "@/utils/url";
 
 const IconText = ({type, text}) => (
   <span>
@@ -43,7 +44,11 @@ class ArticleList extends Component {
 
   componentDidMount() {
     const {location} = this.props;
-    const q = location.state && location.state.q ? location.state.q : '';
+    let searchParams = {};
+    if (location.search) {
+      searchParams = parseQueryString(location.search);
+    }
+    const q = searchParams.q ? searchParams.q : '';
     this.setState((state) => {
       return { ...state, q };
     });
@@ -67,7 +72,7 @@ class ArticleList extends Component {
             itemLayout="vertical"
             size="large"
             dataSource={articleLists}
-            footer={<div><b>ant design</b> footer part</div>}
+            footer={<div/>}
             renderItem={item => (
               <List.Item
                 key={item.title}
