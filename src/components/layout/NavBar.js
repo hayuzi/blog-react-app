@@ -27,7 +27,7 @@ class NavBar extends Component {
                 <Menu.Item key="navTags">
                   <NavLink to={{pathname: "/blank"}}>
                     <b style={{fontSize: "16px"}}>
-                      &nbsp;&nbsp;空白&nbsp;&nbsp;
+                      &nbsp;&nbsp;预留&nbsp;&nbsp;
                     </b>
                   </NavLink>
                 </Menu.Item>

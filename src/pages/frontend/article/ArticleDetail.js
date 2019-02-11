@@ -1,9 +1,15 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import {Row, Col, Tag} from 'antd';
+import marked from 'marked';
+import hljs from 'highlight.js';
 import connect from '@/store/connect';
 import {parseQueryString} from "@/utils/url";
 import styles from '@/pages/frontend/article/ArticleDetail.module.less';
+
+marked.setOptions({
+  highlight: code => hljs.highlightAuto(code).value,
+});
 
 @withRouter
 @connect(({article}) => ({
@@ -61,6 +67,9 @@ class ArticleDetail extends Component {
   render() {
     const {article} = this.props;
     const detail = article.detail;
+
+    const output = marked(detail.content);
+
     return (
       <Row>
         <Col span={24} className={styles.title}>
@@ -71,14 +80,17 @@ class ArticleDetail extends Component {
         <Col span={24} className={styles.extraInfo}>
           <Tag color="green">{detail.Tag.tagName}</Tag>
         </Col>
-        <Col span={24} >
+        <Col span={24}>
           <div className={styles.extraInfo}>发布时间: {detail.createdAt}</div>
         </Col>
         <Col span={24} className={styles.extraInfo}>
           <span>{detail.sketch}</span>
         </Col>
-        <Col span={24}>
-          <span>{detail.content}</span>
+        <Col span={24} className={styles.extraInfo}>
+          <div className={styles.gradationLine}/>
+        </Col>
+        <Col span={24} className={styles.contentArea}>
+          <div dangerouslySetInnerHTML={{ __html: output }} />
         </Col>
       </Row>
     );

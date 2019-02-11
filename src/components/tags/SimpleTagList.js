@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Row, Col, List} from 'antd';
+import {Row, Col, Tag} from 'antd';
 import {NavLink} from 'react-router-dom';
 import styles from '@/components/tags/SimpleTagList.module.less';
 import connect from '@/store/connect';
@@ -21,13 +21,17 @@ class SimpleTagList extends Component {
 
   render() {
     const tagList = this.props.tag.listData.lists;
-    const tagListElement = (list) => {
-      const elList = [];
-      list.forEach(function (item) {
-        elList.push(<NavLink to={{pathname: '/', search: "?tagId=" + item.id}}>{item.tagName}</NavLink>,);
-      });
-      return elList;
-    };
+
+    const tagListElement = [];
+    tagList.forEach(function (item) {
+      tagListElement.push(
+        <NavLink to={{pathname: '/', search: "?tagId=" + item.id}} key={item.id}>
+          <Tag color="green" className={styles.tagListElement}>
+            {item.tagName}
+          </Tag>
+        </NavLink>
+      );
+    });
 
     return (
       <Row>
@@ -36,11 +40,7 @@ class SimpleTagList extends Component {
           <div style={{marginTop: "10px"}}>
             <b>文章标签: </b>
           </div>
-          <List
-            size="small"
-            dataSource={tagListElement(tagList)}
-            renderItem={item => (<List.Item>{item}</List.Item>)}
-          />
+          {tagListElement}
         </Col>
       </Row>
     );

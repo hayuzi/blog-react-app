@@ -218,6 +218,13 @@ yarn add babel-plugin-transform-decorators-legacy --dev
 yarn add axios
 ```
 
+#### markdown编辑器 以及语法高亮显示
+
+```
+yarn add marked
+yarn add highlight.js
+
+```
 
 
 
