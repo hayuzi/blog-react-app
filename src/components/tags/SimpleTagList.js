@@ -24,7 +24,7 @@ class SimpleTagList extends Component {
     const tagListElement = (list) => {
       const elList = [];
       list.forEach(function (item) {
-        elList.push(<NavLink to={{pathname: '/articles', search: "?tagId=" + item.id}}>{item.tagName}</NavLink>,);
+        elList.push(<NavLink to={{pathname: '/', search: "?tagId=" + item.id}}>{item.tagName}</NavLink>,);
       });
       return elList;
     };

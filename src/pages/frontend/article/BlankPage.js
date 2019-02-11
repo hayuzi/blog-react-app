@@ -5,7 +5,7 @@ import connect from '@/store/connect';
 @connect((state) => ({
   ...state,
 }))
-class SearchPage extends Component {
+class BlankPage extends Component {
 
   changeUserInfo = () => {
     const { dispatch } = this.props;
@@ -26,11 +26,11 @@ class SearchPage extends Component {
           <div>{ user.token }</div>
         </Col>
         <Col span={24}>
-          <Button onClick={this.changeUserInfo}>更改用户数据</Button>
-        </Col>
+        <Button onClick={this.changeUserInfo}>更改用户数据</Button>
+      </Col>
       </Row>
     );
   }
 }
 
-export default SearchPage;
+export default BlankPage;
