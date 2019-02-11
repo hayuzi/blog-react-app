@@ -38,12 +38,11 @@ class ArticleList extends Component {
   };
 
   // 页码切换
-  onPageChange = (pageNumber) =>
-  {
+  onPageChange = (pageNumber) => {
     const params = this.getUrlQueryString();
     const pageParams = {
       ...this.getPageParams(),
-      pageNum:pageNumber
+      pageNum: pageNumber
     };
     this.getArticleList({...params, ...pageParams})
   };
@@ -63,7 +62,7 @@ class ArticleList extends Component {
     }
   };
 
-  getPageParams (){
+  getPageParams() {
     const {pageNum, pageSize} = this.props.article.listData;
     return {
       pageNum,
@@ -78,7 +77,7 @@ class ArticleList extends Component {
   // getInitialState(){}
 
   // 生命周期，实例化 3
-  componentWillMount(){
+  componentWillMount() {
     const params = this.getUrlQueryString();
     const pageParams = this.getPageParams();
     this.getArticleList({
@@ -96,7 +95,7 @@ class ArticleList extends Component {
   // }
 
   // 存在期
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     const {location} = nextProps;
     let searchParams = {};
     if (location.search) {
@@ -138,21 +137,20 @@ class ArticleList extends Component {
             renderItem={item => (
               <List.Item
                 key={item.title}
-                actions={[<IconText type="star-o" text="156"/>, <IconText type="like-o" text="156"/>,
-                  <IconText type="message" text="2"/>]}
+                actions={[<IconText type="clock-circle" text={item.createdAt}/>]}
               >
                 <List.Item.Meta
                   title={<NavLink to={{pathname: '/article', search: '?id=' + item.id}}>{item.title}</NavLink>}
                   description={item.sketch}
                 />
-                {item.content}
+                {item.content.slice(0, 100) + "..."}
               </List.Item>
             )}
           />
         </Col>
 
         <Col>
-          <Pagination showQuickJumper defaultCurrent={currentPage} total={totalCnt} onChange={this.onPageChange} />
+          <Pagination showQuickJumper defaultCurrent={currentPage} total={totalCnt} onChange={this.onPageChange}/>
         </Col>
 
       </Row>
