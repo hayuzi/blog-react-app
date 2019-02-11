@@ -1,11 +1,12 @@
 import request from '@/utils/request'
+import hosts from '@/services/hosts';
 
 export async function getArticleList(params) {
-  return request('http://localhost:8000/api/v1/articles', { params });
+  return request(hosts + '/api/v1/articles', { params });
 }
 
 export async function getArticleDetail(params) {
-  let url = "http://localhost:8000/api/v1/articles";
+  let url = hosts + "/api/v1/articles";
   if (params.id) {
     url += "/" + params.id;
   } else {
@@ -15,5 +16,5 @@ export async function getArticleDetail(params) {
 }
 
 export async function getAllTags(params) {
-  return request('http://localhost:8000/api/v1/tags/all', { params });
+  return request(hosts + '/api/v1/tags/all', { params });
 }
