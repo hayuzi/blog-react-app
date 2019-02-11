@@ -5,6 +5,7 @@ import Login from '../pages/User/Login';
 import BasicLayout from "@/components/layout/BasicLayout";
 import IndexPage from "@/pages/IndexPage";
 import BlankPage from "@/pages/frontend/article/BlankPage";
+import ArticleDetail from "@/pages/frontend/article/ArticleDetail";
 
 
 const LayoutBox = ({ match }) => {
@@ -15,7 +16,7 @@ const LayoutBox = ({ match }) => {
     <BasicLayout>
       <Switch>
         <Route exact path={`${match.url}/`} component={ IndexPage }/>
-        <Route exact path={`${match.url}/article`} component={ BlankPage }/>
+        <Route exact path={`${match.url}/article`} component={ ArticleDetail }/>
         <Route exact path={`${match.url}/blank`} component={ BlankPage }/>
         <Route exact path={`${match.url}/sample`} component={ BlankPage }/>
         <Route exact path="/404" component={ NotFound } />

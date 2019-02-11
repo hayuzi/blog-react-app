@@ -1,0 +1,89 @@
+import React, {Component} from 'react';
+import {withRouter} from 'react-router-dom';
+import {Row, Col, Tag} from 'antd';
+import connect from '@/store/connect';
+import {parseQueryString} from "@/utils/url";
+import styles from '@/pages/frontend/article/ArticleDetail.module.less';
+
+@withRouter
+@connect(({article}) => ({
+  article,
+}))
+class ArticleDetail extends Component {
+
+  // 获取列表数据
+  getArticleDetail(params) {
+    const {dispatch} = this.props;
+    dispatch({
+      type: 'article/fetchDetail',
+      payload: {
+        ...params,
+      },
+    });
+  };
+
+  // 获取queryString数据
+  getUrlQueryString = () => {
+    const {location} = this.props;
+    let searchParams = {};
+    if (location.search) {
+      searchParams = parseQueryString(location.search);
+    }
+    const id = searchParams.id ? searchParams.id : '';
+    return {
+      id,
+    }
+  };
+
+  // 生命周期，实例化 3
+  componentWillMount() {
+    const params = this.getUrlQueryString();
+    this.getArticleDetail(params);
+  }
+
+  // 存在期
+  componentWillReceiveProps(nextProps) {
+    const {location} = nextProps;
+    let searchParams = {};
+    if (location.search) {
+      searchParams = parseQueryString(location.search);
+    }
+    const id = searchParams.id ? searchParams.id : '';
+
+    const preParams = this.getUrlQueryString();
+    // 切换了路由参数的话，则重新拉取, 这里如果不加判断条件直接更改 props 则出现深度递归
+    if (id !== preParams.id) {
+      this.getArticleDetail({id})
+    }
+  }
+
+
+  render() {
+    const {article} = this.props;
+    const detail = article.detail;
+    return (
+      <Row>
+        <Col span={24} className={styles.title}>
+          <b>
+            {detail.title}
+          </b>
+        </Col>
+        <Col span={24} className={styles.extraInfo}>
+          <Tag color="green">{detail.Tag.tagName}</Tag>
+        </Col>
+        <Col span={24} >
+          <div className={styles.extraInfo}>发布时间: {detail.createdAt}</div>
+        </Col>
+        <Col span={24} className={styles.extraInfo}>
+          <span>{detail.sketch}</span>
+        </Col>
+        <Col span={24}>
+          <span>{detail.content}</span>
+        </Col>
+      </Row>
+    );
+  }
+}
+
+
+export default ArticleDetail;

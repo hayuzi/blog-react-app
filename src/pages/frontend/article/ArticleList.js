@@ -18,13 +18,13 @@ const IconText = ({type, text}) => (
 class ArticleList extends Component {
 
   // 构造函数
-  constructor(props) {
-    super(props);
-    this.state = {
-      q: '',
-      tagId: '',
-    };
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     q: '',
+  //     tagId: '',
+  //   };
+  // }
 
   // 获取列表数据
   getArticleList(params) {
@@ -80,15 +80,7 @@ class ArticleList extends Component {
   // 生命周期，实例化 3
   componentWillMount(){
     const params = this.getUrlQueryString();
-    this.setState((state) => {
-      return {
-        ...state,
-        q: params.q,
-        tagId: params.tagId,
-      };
-    });
     const pageParams = this.getPageParams();
-    console.log(params);
     this.getArticleList({
       ...params,
       pageSize: pageParams.pageSize,
@@ -116,7 +108,6 @@ class ArticleList extends Component {
     const preParams = this.getUrlQueryString();
     // 切换了路由参数的话，则重新拉取列表, 这里如果不加判断条件直接更改 props 则出现深度递归
     if (q !== preParams.q || tagId !== preParams.tagId) {
-      this.setState({q, tagId});
       this.getArticleList({
         q,
         tagId,
@@ -126,9 +117,9 @@ class ArticleList extends Component {
   }
 
   // 存在期
-  //   shouldComponentUpdate()
-  //   {
-  //   }
+  // shouldComponentUpdate()
+  // {
+  // }
 
 
   render() {
@@ -136,7 +127,6 @@ class ArticleList extends Component {
     const articleLists = article.listData.lists;
     const currentPage = article.listData.pageNum;
     const totalCnt = article.listData.total;
-    console.log(this.state);
     return (
       <Row>
         <Col span={24}>

@@ -25,9 +25,9 @@ class NavBar extends Component {
                   </NavLink>
                 </Menu.Item>
                 <Menu.Item key="navTags">
-                  <NavLink to={{pathname: "/search"}}>
+                  <NavLink to={{pathname: "/blank"}}>
                     <b style={{fontSize: "16px"}}>
-                      &nbsp;&nbsp;搜 索&nbsp;&nbsp;
+                      &nbsp;&nbsp;空白&nbsp;&nbsp;
                     </b>
                   </NavLink>
                 </Menu.Item>
