@@ -227,6 +227,16 @@ yarn add highlight.js
 ```
 
 
+#### 发布gh-pages
+```
+yarn add gh-pages --dev
+```
+
+
+#### 可以使用插件直接上传到七牛或者阿里云OSS
+如 aliyunoss-webpack-plugin qiniju-webpack-plugin
+
+
 
 
 

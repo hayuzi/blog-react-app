@@ -4,3 +4,5 @@
 # common
 node_modules
 yarn.lock
+
+/build
