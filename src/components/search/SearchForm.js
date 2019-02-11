@@ -18,16 +18,8 @@ class SearchForm extends Component {
   //   console.log(context);
   // }
 
-  getArticleList(params) {
-    const {dispatch} = this.props;
-    dispatch({
-      type: 'article/fetchList',
-      payload: {...params},
-    });
-  };
 
   handleSearchSubmit = (value) => {
-    this.getArticleList({q:value });
     this.props.history.push({pathname: "/", search: "q=" + value});
   };
 
