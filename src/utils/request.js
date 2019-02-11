@@ -1,4 +1,5 @@
 import axiosRequest from '@/utils/requests/axios';
+import hosts from '@/services/hosts';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -41,6 +42,11 @@ export const checkStatus = response => {
  * @returns {Promise<T>}
  */
 export default function request(url, option) {
+
+  // 拼接默认的域名
+  if (url.indexOf('http') !== 0) {
+    url = hosts + url;
+  }
 
   const newOption = {};
   const method = (option && option.method ? option.method : 'get').toLowerCase();
