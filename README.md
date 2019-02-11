@@ -226,12 +226,10 @@ yarn add highlight.js
 
 ```
 
-
-#### 发布gh-pages
+#### 自动打包并发布到 gh-pages 分支
 ```
 yarn add gh-pages --dev
 ```
-
 
 #### 可以使用插件直接上传到七牛或者阿里云OSS
 如 aliyunoss-webpack-plugin qiniju-webpack-plugin
