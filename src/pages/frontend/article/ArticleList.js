@@ -137,7 +137,7 @@ class ArticleList extends Component {
             renderItem={item => (
               <List.Item
                 key={item.title}
-                actions={[<IconText type="clock-circle" text={item.createdAt}/>]}
+                actions={[<IconText type="tag" text={item.Tag.tagName}/>, <IconText type="clock-circle" text={item.createdAt}/>]}
               >
                 <List.Item.Meta
                   title={<NavLink to={{pathname: '/article', search: '?id=' + item.id}}>{item.title}</NavLink>}
@@ -149,7 +149,7 @@ class ArticleList extends Component {
           />
         </Col>
 
-        <Col>
+        <Col span={24}>
           <Pagination showQuickJumper defaultCurrent={currentPage} total={totalCnt} onChange={this.onPageChange}/>
         </Col>
 
