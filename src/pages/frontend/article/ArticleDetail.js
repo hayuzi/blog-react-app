@@ -6,8 +6,17 @@ import hljs from 'highlight.js';
 import connect from '@/store/connect';
 import {parseQueryString} from "@/utils/url";
 import styles from '@/pages/frontend/article/ArticleDetail.module.less';
+import 'highlight.js/styles/sunburst.css';
 
 marked.setOptions({
+  renderer: new marked.Renderer(),
+  gfm: true,
+  tables: true,
+  breaks: false,
+  pedantic: false,
+  sanitize: false,
+  smartLists: true,
+  smartypants: false,
   highlight: code => hljs.highlightAuto(code).value,
 });
 
