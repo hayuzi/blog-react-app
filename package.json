@@ -72,7 +72,8 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
     "deploy": "yarn build && yarn deployOnly",
-    "deployOnly": "gh-pages -d build --message $(git symbolic-ref --short -q HEAD)-$(git rev-parse --short HEAD) && git pull && echo $(git rev-parse origin/gh-pages | awk '{print substr($0,1,8)}')"
+    "deployOnly": "gh-pages -d build --message $(git symbolic-ref --short -q HEAD)-$(git rev-parse --short HEAD) && git pull && echo $(git rev-parse origin/gh-pages | awk '{print substr($0,1,8)}')",
+    "deployGhPages": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
