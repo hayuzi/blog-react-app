@@ -6,7 +6,7 @@ import hljs from 'highlight.js';
 import connect from '@/store/connect';
 import {parseQueryString} from "@/utils/url";
 import styles from '@/pages/frontend/article/ArticleDetail.module.less';
-import 'highlight.js/styles/sunburst.css';
+import 'highlight.js/styles/atom-one-dark.css';
 
 marked.setOptions({
   renderer: new marked.Renderer(),
