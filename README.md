@@ -218,6 +218,21 @@ yarn add babel-plugin-transform-decorators-legacy --dev
 yarn add axios
 ```
 
+#### markdown编辑器 以及语法高亮显示
+
+```
+yarn add marked
+yarn add highlight.js
+
+```
+
+#### 自动打包并发布到 gh-pages 分支
+```
+yarn add gh-pages --dev
+```
+
+#### 可以使用插件直接上传到七牛或者阿里云OSS
+如 aliyunoss-webpack-plugin qiniju-webpack-plugin
 
 
 
