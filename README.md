@@ -191,7 +191,8 @@ lessRegex 与 lessModuleRegex 参考 SASS的写法
 
 ```
 # 安装
-yarn add babel-plugin-transform-decorators-legacy --dev
+# yarn add babel-plugin-transform-decorators-legacy --dev
+yarn add @babel/plugin-proposal-decorators --dev
 
 # 配置 package.json 注意：babel 7.0以上版本配置与之前不同：如下
 "babel": {
