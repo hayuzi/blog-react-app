@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import {Row, Col, Tag} from 'antd';
+import CommentsList from '@/components/comment/CommentsList'
 import marked from 'marked';
 import hljs from 'highlight.js';
 import connect from '@/store/connect';
@@ -79,6 +80,8 @@ class ArticleDetail extends Component {
 
     const output = marked(detail.content);
 
+    console.log(detail);
+
     return (
       <Row>
         <Col span={24} className={styles.title}>
@@ -87,7 +90,7 @@ class ArticleDetail extends Component {
           </b>
         </Col>
         <Col span={24} className={styles.extraInfo}>
-          <Tag color="green">{detail.Tag.tagName}</Tag>
+          <Tag color="green">{detail.tag.tagName}</Tag>
         </Col>
         <Col span={24}>
           <div className={styles.extraInfo}>发布时间: {detail.createdAt}</div>
@@ -100,6 +103,9 @@ class ArticleDetail extends Component {
         </Col>
         <Col span={24} className={styles.contentArea}>
           <div dangerouslySetInnerHTML={{ __html: output }} />
+        </Col>
+        <Col span={24} className={styles.extraInfo}>
+          <CommentsList/>
         </Col>
       </Row>
     );

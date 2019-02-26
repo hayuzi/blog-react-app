@@ -16,7 +16,7 @@ export default {
       title: "Shell脚本",
       updatedAt: "2019-01-01 00:00:00",
       weight: 1,
-      Tag: {
+      tag: {
         createdAt: "2019-01-01 01:16:47",
         id: 1,
         tagName: "Linux",

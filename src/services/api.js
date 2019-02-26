@@ -17,3 +17,7 @@ export async function getArticleDetail(params) {
 export async function getAllTags(params) {
   return request('/api/v1/tags/all', { params });
 }
+
+export async function getCommentsList(params) {
+  return request('/api/v1/comments', { params });
+}
