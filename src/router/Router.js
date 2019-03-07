@@ -6,7 +6,14 @@ import BasicLayout from "@/components/layout/BasicLayout";
 import IndexPage from "@/pages/IndexPage";
 import BlankPage from "@/pages/frontend/article/BlankPage";
 import ArticleDetail from "@/pages/frontend/article/ArticleDetail";
-
+// import asyncComponent from "@/router/asyncComponent";
+// // react 按照路由异步加载组件
+// const IndexPage=asyncComponent(()=>import(/* webpackChunkName: "index-page" */"@/pages/IndexPage"));
+// const BlankPage=asyncComponent(()=>import(/* webpackChunkName: "blank-page" */"@/pages/frontend/article/BlankPage"));
+// const ArticleDetail=asyncComponent(()=>import(/* webpackChunkName: "article-detail" */"@/pages/frontend/article/ArticleDetail"));
+// const NotFound=asyncComponent(()=>import(/* webpackChunkName: "not-found" */"@/pages/NotFound"));
+// const Login=asyncComponent(()=>import(/* webpackChunkName: "user-login" */"@/pages/User/Login"));
+// const BasicLayout=asyncComponent(()=>import(/* webpackChunkName: "basic-layout" */"@/components/layout/BasicLayout"));
 
 const LayoutBox = ({ match }) => {
   if (match.url === '/') {

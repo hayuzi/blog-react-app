@@ -236,6 +236,13 @@ yarn add gh-pages --dev
 如 aliyunoss-webpack-plugin qiniju-webpack-plugin
 
 
+#### 基于react-create-app实现组件异步加载
+此处的webpack配置已经默认配置了，需要在router加载处处理异步倒入
+```
+```
+
+
+
 
 
 

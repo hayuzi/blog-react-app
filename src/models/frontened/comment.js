@@ -8,11 +8,14 @@ export default {
   state: {
     listData: {
       lists: [],
-    }
+      pageNum: 1,
+      total: 0,
+      pageSize: 10,
+    },
   },
 
   effects: {
-    * getCommentsList({payload}, {call, put}) {  // eslint-disable-line
+    * fetchCommentsList({payload}, {call, put}) {  // eslint-disable-line
       const response = yield call(getCommentsList, payload);
       yield put({
         type: 'saveCommentsList',
@@ -27,6 +30,9 @@ export default {
         ...state,
         listData: {
           lists: action.payload.data.lists,
+          pageNum: action.payload.data.pageNum,
+          total: action.payload.data.total,
+          pageSize: action.payload.data.pageSize,
         }
       };
     },

@@ -77,10 +77,7 @@ class ArticleDetail extends Component {
   render() {
     const {article} = this.props;
     const detail = article.detail;
-
     const output = marked(detail.content);
-
-    console.log(detail);
 
     return (
       <Row>
