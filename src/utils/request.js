@@ -1,6 +1,7 @@
 import axiosRequest from '@/utils/requests/axios';
 import hosts from '@/services/hosts';
 import {message} from 'antd';
+import Storage from '@/storage/Storage';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -49,19 +50,25 @@ export default function request(url, option) {
     url = hosts + url;
   }
 
+  let userInfo = Storage.get("userInfo");
+  let token = '';
+  if (userInfo !== null && userInfo.token !== undefined) {
+    token = userInfo.token;
+  }
+
   const newOption = {};
   const method = (option && option.method ? option.method : 'get').toLowerCase();
   newOption.method = method;
   switch (method) {
     case 'post':
     case 'put':
-      newOption.params = {};
+      newOption.params = {token};
       newOption.body = option.params;
       break;
     case 'get':
     case 'delete':
     default:
-      newOption.params = option.params;
+      newOption.params = {token, ...option.params};
       newOption.body = {};
       break;
   }

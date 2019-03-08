@@ -31,6 +31,51 @@ class NavBar extends Component {
     });
   };
 
+
+  onRegisterSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const {dispatch} = this.props;
+        dispatch({
+          type: 'user/register',
+          payload: {
+            ...values,
+          },
+        });
+        console.log('Received values of form: ', values);
+        this.onClose();
+      }
+    });
+  };
+
+  onLoginSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const {dispatch} = this.props;
+        dispatch({
+          type: 'user/login',
+          payload: {
+            ...values,
+          },
+        });
+        console.log('Received values of form: ', values);
+        this.onClose();
+      }
+    });
+
+  };
+
+  onLogout = () => {
+    const {dispatch} = this.props;
+    dispatch({
+      type: 'user/logout',
+      payload: {},
+    });
+  };
+
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const user = this.props.user;
@@ -76,7 +121,8 @@ class NavBar extends Component {
 
         <div className={styles.right}>
           <div className={styles.userInfo}>
-            {user.id > 0 && <Button style={{marginRight:"8px"}}>{user.username}</Button>}
+            {user.id > 0 && <span style={{marginRight:"8px"}}>{user.username}</span>}
+            {user.id > 0 && <Button type="danger"  onClick={this.onLogout}>注销</Button>}
             {user.id === 0 && <Button type="dashed" onClick={this.showDrawer}>注册/登陆</Button>}
             <Drawer
               title="注册／登陆"
@@ -109,10 +155,10 @@ class NavBar extends Component {
                   </Col>
                   <Col span={24}>
                     <Form.Item label="Password">
-                      {getFieldDecorator('password', {
-                        rules: [{ required: true, message: 'Please input your Password!' }],
+                      {getFieldDecorator('pwd', {
+                        rules: [{ required: true, message: '请输入密码!' }],
                       })(
-                        <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
+                        <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="密码" />
                       )}
                     </Form.Item>
                   </Col>
@@ -133,10 +179,10 @@ class NavBar extends Component {
                 <Button onClick={this.onClose} style={{ marginRight: 8 }}>
                   取消
                 </Button>
-                <Button onClick={this.onClose} type="dashed" style={{ marginRight: 8 }}>
+                <Button onClick={this.onRegisterSubmit} type="dashed" style={{ marginRight: 8 }}>
                   注册
                 </Button>
-                <Button onClick={this.onClose} type="primary">
+                <Button onClick={this.onLoginSubmit} type="primary">
                   登陆
                 </Button>
               </div>

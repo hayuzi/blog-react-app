@@ -40,8 +40,7 @@ export default {
      * @param payload
      * @param call
      * @param put
-     */
-    *fetchList({ payload }, { call, put }) {  // eslint-disable-line
+     */* fetchList({payload}, {call, put}) {  // eslint-disable-line
       const response = yield call(getArticleList, payload);
       yield put({
         type: 'changeArticleListData',
@@ -53,8 +52,7 @@ export default {
      * @param payload
      * @param call
      * @param put
-     */
-    *fetchDetail({ payload }, { call, put }) {  // eslint-disable-line
+     */* fetchDetail({payload}, {call, put}) {  // eslint-disable-line
       const response = yield call(getArticleDetail, payload);
       yield put({
         type: 'changeArticleDetail',
@@ -73,7 +71,7 @@ export default {
     changeArticleListData(state, action) {
       return {
         ...state,
-        listData : {
+        listData: {
           lists: action.payload.data.lists,
           pageNum: action.payload.data.pageNum,
           total: action.payload.data.total,
@@ -91,7 +89,7 @@ export default {
       if (action.payload.code === 200) {
         return {
           ...state,
-          detail : action.payload.data,
+          detail: action.payload.data,
         };
       }
       return {

@@ -26,3 +26,10 @@ export async function createComment(params) {
   return request('/api/v1/auth/comments', { params, method: 'post'});
 }
 
+export async function userRegister(params) {
+  return request('/api/v0/register', { params, method: 'post'});
+}
+
+export async function userLogin(params) {
+  return request('/api/v0/auth', { params, method: 'get'});
+}

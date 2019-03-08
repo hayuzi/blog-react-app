@@ -15,14 +15,14 @@ export default {
   },
 
   effects: {
-    *fetchCommentsList({payload}, {call, put}) {  // eslint-disable-line
+    * fetchCommentsList({payload}, {call, put}) {  // eslint-disable-line
       const response = yield call(getCommentsList, payload);
       yield put({
         type: 'saveCommentsList',
         payload: response,
       });
     },
-    *addComment({payload}, {call, put}){
+    * addComment({payload}, {call, put}) {
       const response = yield call(createComment, payload);
       yield put({
         type: 'createSuccess',
