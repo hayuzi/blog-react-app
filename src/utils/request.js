@@ -1,5 +1,6 @@
 import axiosRequest from '@/utils/requests/axios';
 import hosts from '@/services/hosts';
+import {message} from 'antd';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -69,13 +70,28 @@ export default function request(url, option) {
   return axiosRequest(url, newOption)
     .then(checkStatus)
     .then(res => {
-      console.log(res);
+      if (res.data.code !== 200 && res.data.msg) {
+        message.config({
+          top: 100,
+          duration: 2,
+          maxCount: 3,
+        });
+        message.error(res.data.msg);
+      }
       return res.data;
     })
     .catch(err => {
-      console.log(err);
-      // TODO 处理异常
-      return;
+      const msg401 = "Request failed with status code 401";
+      if (err.message === msg401) {
+        message.error("请先登陆再操作！");
+      } else {
+        message.error(err.message);
+      }
+      return {
+        code: 500,
+        data: {},
+        msg: 'error'
+      };
     });
 
 }

@@ -23,7 +23,6 @@ export async function getCommentsList(params) {
 }
 
 export async function createComment(params) {
-  params.method = "post";
-  return request('/api/v1/comments', { params });
+  return request('/api/v1/auth/comments', { params, method: 'post'});
 }
 

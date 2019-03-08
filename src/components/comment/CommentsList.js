@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
+import {withRouter} from 'react-router-dom';
 import {Row, Col, List, Popover, Pagination, Comment, Form, Input, Button} from 'antd';
 import styles from '@/components/comment/CommentsList.module.less';
 import connect from '@/store/connect';
+import {parseQueryString} from "@/utils/url";
 
 const TextArea = Input.TextArea;
 
@@ -19,7 +21,7 @@ const Editor = ({
         onClick={onSubmit}
         type="primary"
       >
-        Add Comment
+        提交评论
       </Button>
     </Form.Item>
   </div>
@@ -44,6 +46,7 @@ const TitleUser = ({username, email}) => {
   );
 };
 
+@withRouter
 @connect(({comment, article}) => ({
   comment,
   article
@@ -60,11 +63,22 @@ class CommentsList extends Component {
   }
 
   componentDidMount() {
-    const {article} = this.props;
-    const params = {};
-    params.articleId = article.detail.id;
-    this.getCommentList(params);
+    const params = this.getUrlQueryString();
+    this.getCommentList({articleId: params.id});
   }
+
+  // 获取queryString数据
+  getUrlQueryString = () => {
+    const {location} = this.props;
+    let searchParams = {};
+    if (location.search) {
+      searchParams = parseQueryString(location.search);
+    }
+    const id = searchParams.id ? searchParams.id : '';
+    return {
+      id,
+    }
+  };
 
   // 获取列表数据
   getCommentList(params) {
@@ -97,22 +111,32 @@ class CommentsList extends Component {
     if (!this.state.value) {
       return;
     }
-
     this.setState({
       submitting: true,
+    });
+
+    const query = this.getUrlQueryString();
+    const params = {};
+    params.articleId = query.id;
+    params.userId = 0;
+
+    const {dispatch} = this.props;
+    dispatch({
+      type: 'comment/addComment',
+      payload: {
+        ...params,
+      },
     });
 
     setTimeout(() => {
       this.setState({
         submitting: false,
-        value: '',
       });
     }, 1000);
   };
 
   // 写评论
   handleCommentChange = (e) => {
-    console.log(e.target.value);
     this.setState({
       value: e.target.value,
     });
@@ -136,22 +160,6 @@ class CommentsList extends Component {
             <b>评论:</b>
           </div>
           <div className={styles.commentContentArea}>
-
-            {/*<List*/}
-            {/*itemLayout="vertical"*/}
-            {/*size="small"*/}
-            {/*dataSource={commentsList}*/}
-            {/*renderItem={item => (*/}
-            {/*<List.Item key={item.id}>*/}
-            {/*<List.Item.Meta*/}
-            {/*title={TitleUser(item.user)}*/}
-            {/*/>*/}
-            {/*{item.content}*/}
-            {/*</List.Item>*/}
-            {/*)}*/}
-            {/*/>*/}
-
-
             <List
               itemLayout="vertical"
               size="small"
@@ -165,7 +173,6 @@ class CommentsList extends Component {
                 />
               )}
             />
-
             <div className={styles.pageArea}>
               <Pagination
                 showQuickJumper
@@ -174,7 +181,6 @@ class CommentsList extends Component {
                 onChange={this.onPageChange}
               />
             </div>
-
             <div className={styles.commentForm}>
               <Comment
                 content={(

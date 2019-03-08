@@ -25,7 +25,7 @@ export default {
     *addComment({payload}, {call, put}){
       const response = yield call(createComment, payload);
       yield put({
-        type: 'saveCommentsList',
+        type: 'createSuccess',
         payload: response,
       });
     },
@@ -41,6 +41,16 @@ export default {
           total: action.payload.data.total,
           pageSize: action.payload.data.pageSize,
         }
+      };
+    },
+    createSuccess(state, action) {
+      if (action.payload.code === 200) {
+        return {
+          ...state,
+        };
+      }
+      return {
+        ...state,
       };
     },
   },
