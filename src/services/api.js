@@ -21,3 +21,9 @@ export async function getAllTags(params) {
 export async function getCommentsList(params) {
   return request('/api/v1/comments', { params });
 }
+
+export async function createComment(params) {
+  params.method = "post";
+  return request('/api/v1/comments', { params });
+}
+

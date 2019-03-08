@@ -9,20 +9,20 @@ export default {
     detail: {
       id: 0,
       articleStatus: 1,
-      content: "测试的脚本信息",
+      content: "暂无数据",
       createdAt: "2019-01-01 00:00:00",
-      sketch: "Shell脚本",
-      tagId: 1,
-      title: "Shell脚本",
+      sketch: "",
+      tagId: 0,
+      title: "空白标题",
       updatedAt: "2019-01-01 00:00:00",
       weight: 1,
       tag: {
         createdAt: "2019-01-01 01:16:47",
-        id: 1,
-        tagName: "Linux",
-        tagStatus: 1,
+        id: 0,
+        tagName: "blank",
+        tagStatus: 0,
         updatedAt: "2019-01-01 01:16:47",
-        weight: 3,
+        weight: 0,
       },
     },
     listData: {
@@ -88,9 +88,14 @@ export default {
      * @returns {{detail}}
      */
     changeArticleDetail(state, action) {
+      if (action.payload.code === 200) {
+        return {
+          ...state,
+          detail : action.payload.data,
+        };
+      }
       return {
         ...state,
-        detail : action.payload.data,
       };
     }
   },
