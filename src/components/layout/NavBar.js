@@ -31,10 +31,9 @@ class NavBar extends Component {
     });
   };
 
-
   render() {
-
     const { getFieldDecorator } = this.props.form;
+    const user = this.props.user;
 
     return (
       <div className={styles.navBar}>
@@ -77,7 +76,8 @@ class NavBar extends Component {
 
         <div className={styles.right}>
           <div className={styles.userInfo}>
-            <Button type="dashed" onClick={this.showDrawer}>注册/登陆</Button>
+            {user.id > 0 && <Button style={{marginRight:"8px"}}>{user.username}</Button>}
+            {user.id === 0 && <Button type="dashed" onClick={this.showDrawer}>注册/登陆</Button>}
             <Drawer
               title="注册／登陆"
               width={375}

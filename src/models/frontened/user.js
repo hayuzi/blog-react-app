@@ -4,7 +4,7 @@ export default {
 
   state: {
     id: 0,
-    username: '',
+    username: '匿名用户',
     token: '',
     loading: true,
   },
