@@ -63,8 +63,10 @@ class CommentsList extends Component {
   }
 
   componentDidMount() {
-    const params = this.getUrlQueryString();
-    this.getCommentList({articleId: params.id});
+    const pageParams = {
+      ...this.getPageParams(),
+    };
+    this.getCommentList({...pageParams});
   }
 
   // 获取queryString数据
@@ -83,6 +85,11 @@ class CommentsList extends Component {
   // 获取列表数据
   getCommentList(params) {
     const {dispatch} = this.props;
+    const query = this.getUrlQueryString();
+    if (params === undefined) {
+      params = {};
+    }
+    params.articleId = query.id;
     dispatch({
       type: 'comment/fetchCommentsList',
       payload: {
@@ -148,6 +155,11 @@ class CommentsList extends Component {
     const commentsList = comment.listData.lists;
     const currentPage = comment.listData.pageNum;
     const totalCnt = comment.listData.total;
+    const pageSize = comment.listData.pageSize;
+
+    console.log(totalCnt);
+    console.log(currentPage);
+
     const {submitting, value} = this.state;
 
     return (
@@ -177,6 +189,7 @@ class CommentsList extends Component {
               <Pagination
                 showQuickJumper
                 defaultCurrent={currentPage}
+                pageSize={pageSize}
                 total={totalCnt}
                 onChange={this.onPageChange}
               />

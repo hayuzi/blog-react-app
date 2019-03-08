@@ -10,7 +10,7 @@ export default {
       lists: [],
       pageNum: 1,
       total: 0,
-      pageSize: 10,
+      pageSize: 5,
     },
   },
 
