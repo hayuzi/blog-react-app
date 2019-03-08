@@ -156,10 +156,6 @@ class CommentsList extends Component {
     const currentPage = comment.listData.pageNum;
     const totalCnt = comment.listData.total;
     const pageSize = comment.listData.pageSize;
-
-    console.log(totalCnt);
-    console.log(currentPage);
-
     const {submitting, value} = this.state;
 
     return (
