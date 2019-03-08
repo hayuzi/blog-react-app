@@ -26,10 +26,6 @@ export const checkStatus = response => {
     return response;
   }
   const errorText = codeMessage[response.status] || response.statusText;
-  // notification.error({
-  //   message: `请求错误 ${response.status}: ${response.url}`,
-  //   description: errorText,
-  // });
   console.log(`请求错误 ${response.status}: ${response.url}`);
   const error = new Error(errorText);
   error.name = response.status;

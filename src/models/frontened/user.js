@@ -60,15 +60,13 @@ export default {
       if (action.payload.code !== 200) {
         return {...state};
       } else {
-        console.log(action.payload.data);
         Storage.set("userInfo", action.payload.data);
         return {...state, ...action.payload.data};
       }
     },
     clearLoginData(state, action){
       Storage.delete("userInfo");
-      console.log(action.payload.data);
-      return {...state, ...action.payload.data};
+      return {...state, ...action.payload};
     }
   },
 
