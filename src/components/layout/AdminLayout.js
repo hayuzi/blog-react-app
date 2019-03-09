@@ -1,16 +1,36 @@
 import React, {Component} from 'react';
+import {withRouter} from "react-router-dom";
 import {Layout, Menu, Icon, Dropdown} from 'antd';
 import {NavLink} from 'react-router-dom';
 import styles from '@/components/layout/AdminLayout.module.less';
+import connect from "@/store/connect";
+import {USER_TYPE_ADMIN} from '@/models/common/constMap'
 
 const {SubMenu} = Menu;
 const {Header, Sider, Content} = Layout;
 
-
+@withRouter
+@connect(({user}) => ({
+  user,
+}))
 class AdminLayout extends Component {
   state = {
     collapsed: false,
   };
+
+  componentDidMount() {
+    const {user} = this.props;
+    if (user.id === 0 || user.userType !== USER_TYPE_ADMIN) {
+      this.props.history.push({pathname: "/login"});
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {user} = nextProps;
+    if (user.id === 0 || user.userType !== USER_TYPE_ADMIN) {
+      this.props.history.push({pathname: "/login"});
+    }
+  }
 
   toggle = () => {
     this.setState({
@@ -18,8 +38,16 @@ class AdminLayout extends Component {
     });
   };
 
-  render() {
+  handleLogout = () => {
+    const {dispatch} = this.props;
+    dispatch({
+      type: 'user/logout',
+      payload: {},
+    });
+  };
 
+  render() {
+    const {user} = this.props;
 
     const AdminInfo = (
       <Menu>
@@ -28,7 +56,7 @@ class AdminLayout extends Component {
           <span>个人中心</span>
         </Menu.Item>
         <Menu.Divider/>
-        <Menu.Item key="2">
+        <Menu.Item key="2" onClick={this.handleLogout}>
           <Icon type="logout"/>
           <span>退出登陆</span>
         </Menu.Item>
@@ -98,7 +126,7 @@ class AdminLayout extends Component {
             />
             <Dropdown overlay={AdminInfo} trigger={['click']}>
               <span className={styles.dropDownLink}>
-                用户名
+                {user.username}
               </span>
             </Dropdown>
           </Header>
@@ -106,7 +134,7 @@ class AdminLayout extends Component {
             margin: '2px 0', minHeight: 280,
           }}
           >
-            { this.props.children }
+            {this.props.children}
           </Content>
         </Layout>
       </Layout>

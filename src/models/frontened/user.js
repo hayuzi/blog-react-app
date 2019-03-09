@@ -1,5 +1,7 @@
 import {userRegister, userLogin} from '@/services/api'
+import {adminLogin} from '@/services/admin'
 import Storage from '@/storage/Storage'
+import {USER_TYPE_NORAML} from "@/models/common/constMap";
 
 let userInfo = Storage.get("userInfo");
 if (userInfo == null) {
@@ -15,35 +17,42 @@ export default {
     username: userInfo.username ? userInfo.username : '匿名用户',
     email: userInfo.email ? userInfo.email : '',
     token: userInfo.token ? userInfo.token : '',
+    userType: userInfo.userType ? userInfo.userType : USER_TYPE_NORAML,
   },
 
   effects: {
-    * login({payload}, {call, put}) {  // eslint-disable-line
+    * login({payload}, {call, put}) {
       const response = yield call(userLogin, payload);
       yield put({
         type: 'changeLoginStatus',
         payload: response,
       });
-      // 缓存用户信息
     },
-    * register({payload}, {call, put}) {  // eslint-disable-line
+    * adminLogin({payload}, {call, put}) {
+      const response = yield call(adminLogin, payload);
+      yield put({
+        type: 'changeLoginStatus',
+        payload: response,
+      });
+    },
+    * register({payload}, {call, put}) {
       const response = yield call(userRegister, payload);
       yield put({
         type: 'changeLoginStatus',
         payload: response,
       });
-      // 缓存用户信息
     },
-    * logout({payload}, {call, put}) {  // eslint-disable-line
+    * logout({payload}, {call, put}) {
       const response = yield call(function (payload) {
-        return new Promise(function(resolve, reject){
+        return new Promise(function (resolve, reject) {
           //做一些异步操作
-          setTimeout(function(){
+          setTimeout(function () {
             resolve({
               id: 0,
               username: '匿名用户',
               token: '',
               email: '',
+              userType: 2,
             });
           }, 100);
         });
@@ -52,7 +61,6 @@ export default {
         type: 'clearLoginData',
         payload: response,
       });
-      // 缓存用户信息
     },
   },
   reducers: {
@@ -64,7 +72,7 @@ export default {
         return {...state, ...action.payload.data};
       }
     },
-    clearLoginData(state, action){
+    clearLoginData(state, action) {
       Storage.delete("userInfo");
       return {...state, ...action.payload};
     }

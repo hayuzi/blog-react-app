@@ -1,42 +1,60 @@
 import React, {Component} from 'react';
 import {Row, Col, Form, Icon, Input, Button} from 'antd';
+import {withRouter, NavLink} from "react-router-dom";
 import styles from '@/pages/admin/user/Login.module.less';
 import connect from "@/store/connect";
+import {USER_TYPE_ADMIN} from '@/models/common/constMap'
 
+@withRouter
 @Form.create()
-@connect(({adminUser}) => ({
-  adminUser,
+@connect(({user}) => ({
+  user,
 }))
 class Login extends Component {
+
+  componentDidMount() {
+    const {user} = this.props;
+    if (user.id > 0 ) {
+      this.props.history.push({pathname: "/admin/dashboard"});
+    }
+  }
+
+  // 存在期
+  componentWillReceiveProps(nextProps) {
+    const {user} = nextProps;
+    if (user.id > 0 && user.userType === USER_TYPE_ADMIN) {
+      this.props.history.push({pathname: "/admin/dashboard"});
+    }
+  }
 
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
         const {dispatch} = this.props;
         dispatch({
-          type: 'adminUser/login',
+          type: 'user/adminLogin',
           payload: {
             ...values,
           },
         });
-        console.log('Received values of form: ', values);
       }
     });
   };
 
+
   render() {
     const { getFieldDecorator } = this.props.form;
-
-    console.log(this.props.adminUser);
 
     return (
       <Row className={styles.contentArea}>
         <Col span={24} className={styles.loginContainer}>
           <div className={styles.title}>
             <h1>博客管理后台</h1>
-            <div>请使用账户名与密码登陆</div>
+            <div>
+              <span>请使用账户名与密码登陆, 或者</span>
+              <NavLink to={{pathname: "/"}}>返回前台</NavLink>
+            </div>
           </div>
           <div className={styles.formArea}>
             <Form onSubmit={this.handleSubmit}>
