@@ -25,8 +25,6 @@ class SearchForm extends Component {
 
   render() {
 
-    console.log(this);
-
     return (
       <Row>
         <Col span={24} className={styles.searchArea}>

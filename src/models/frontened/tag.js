@@ -6,9 +6,9 @@ export default {
   namespace: 'tag',
 
   state: {
-   listData: {
-     lists: [],
-   }
+    listData: {
+      lists: [],
+    }
   },
 
   effects: {

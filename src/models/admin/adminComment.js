@@ -1,8 +1,8 @@
-import {adminLogin} from '@/services/admin';
+import {getArticleList} from '@/services/admin';
 
 export default {
 
-  namespace: 'adminUser',
+  namespace: 'adminComment',
 
   state: {
     listData: {
@@ -14,17 +14,17 @@ export default {
   },
 
   effects: {
-    * fetchUserList({payload}, {call, put}) {  // eslint-disable-line
-      const response = yield call(adminLogin, payload);
+    * fetchArticleList({payload}, {call, put}) {
+      const response = yield call(getArticleList, payload);
       yield put({
-        type: 'userListData',
+        type: 'articleListData',
         payload: response,
       });
     },
   },
 
   reducers: {
-    userListData(state, action) {
+    articleListData(state, action) {
       return {...state, ...action.payload.data};
     },
   },
