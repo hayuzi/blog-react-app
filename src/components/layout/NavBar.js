@@ -99,9 +99,9 @@ class NavBar extends Component {
                   </NavLink>
                 </Menu.Item>
                 <Menu.Item key="navTags">
-                  <NavLink to={{pathname: "/blank"}}>
+                  <NavLink to={{pathname: "/admin/dashboard"}}>
                     <b style={{fontSize: "16px"}}>
-                      &nbsp;&nbsp;空 白&nbsp;&nbsp;
+                      &nbsp;&nbsp;后 台&nbsp;&nbsp;
                     </b>
                   </NavLink>
                 </Menu.Item>

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Row, Col, Breadcrumb} from 'antd';
-// import {NavLink} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import styles from '@/pages/admin/dashboard/Dashboard.module.less';
 
 class Dashboard extends Component {
@@ -14,8 +14,10 @@ class Dashboard extends Component {
             <Breadcrumb.Item>dashboard</Breadcrumb.Item>
           </Breadcrumb>
         </Col>
-        <Col span={24}>
-
+        <Col span={24} className={styles.layoutContent}>
+          <div>
+            <NavLink to={{pathname:"/"}}>回前台</NavLink>
+          </div>
         </Col>
       </Row>
     );
