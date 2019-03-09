@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import NotFound from '@/pages/NotFound';
-import Login from '../pages/User/Login';
+import Login from '../pages/admin/user/Login';
 import BasicLayout from "@/components/layout/BasicLayout";
 import AdminLayout from "@/components/layout/AdminLayout";
 import IndexPage from "@/pages/IndexPage";
