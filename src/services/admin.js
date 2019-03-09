@@ -19,7 +19,6 @@ export async function getAllTags(params) {
   return request('/admin/v1/tags/all', {params});
 }
 
-
 export async function adminLogin(params) {
-  return request('/auth', {params, method: 'post'});
+  return request('/api/v0/adminauth', {params});
 }

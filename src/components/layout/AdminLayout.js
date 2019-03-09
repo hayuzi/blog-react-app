@@ -82,14 +82,12 @@ class AdminLayout extends Component {
               title={<span><Icon type="user"/><span>User</span></span>}
             >
               <Menu.Item key="3">
-                <NavLink to={{pathname: "/admin/dashboard"}}>
+                <NavLink to={{pathname: "/admin/user/list"}}>
                   <span>用户列表</span>
                 </NavLink>
               </Menu.Item>
-              <Menu.Item key="4">空白</Menu.Item>
             </SubMenu>
           </Menu>
-
         </Sider>
         <Layout>
           <Header style={{background: '#fff', padding: 0}}>
