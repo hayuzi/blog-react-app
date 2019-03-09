@@ -221,7 +221,13 @@ class AdminArticleList extends Component {
               pagination={false}
             />
             <div className={styles.paginationArea}>
-              <Pagination showQuickJumper defaultCurrent={currentPage} total={totalCnt} onChange={this.handlePageChange}/>
+              <Pagination
+                showQuickJumper
+                defaultCurrent={currentPage}
+                total={totalCnt}
+                pageSize={pageSize}
+                onChange={this.handlePageChange}
+              />
             </div>
           </div>
         </Col>
