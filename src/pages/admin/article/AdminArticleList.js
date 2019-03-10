@@ -115,7 +115,7 @@ const ArticleInfoForm = Form.create({
       </Row>
       <Row gutter={16}>
         <Col span={12}>
-          <Form.Item label="内容">
+          <Form.Item label="内容 (使用Markdown语法)">
             {getFieldDecorator('content', {
               rules: [
                 {
@@ -128,7 +128,7 @@ const ArticleInfoForm = Form.create({
         </Col>
         <Col span={12}>
           <div className={styles.contentHeader}>
-            <b>内容解析</b>
+            <b>内容预览</b>
           </div>
           <div className={styles.contentContainer}>
             <div dangerouslySetInnerHTML={{ __html: output }} />
