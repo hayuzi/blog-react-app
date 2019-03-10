@@ -123,7 +123,7 @@ const ArticleInfoForm = Form.create({
                   message: '请输入内容',
                 },
               ],
-            })(<Input.TextArea rows={10} placeholder="请输入内容"/>)}
+            })(<Input.TextArea rows={20} placeholder="请输入内容"/>)}
           </Form.Item>
         </Col>
         <Col span={12}>
