@@ -123,7 +123,7 @@ const ArticleInfoForm = Form.create({
                   message: '请输入内容',
                 },
               ],
-            })(<Input.TextArea rows={50} placeholder="请输入内容"/>)}
+            })(<Input.TextArea rows={20} placeholder="请输入内容"/>)}
           </Form.Item>
         </Col>
         <Col span={12}>
@@ -154,15 +154,7 @@ class AdminArticleList extends Component {
       articleDetailFields:{
         id: 0,
         articleStatus: 1,
-        content: '测试数据\n===\n### 123123' +
-        '\n数据展示\n---\n数据展示\n> 哈哈哈 我就是看看\n' +
-        '\n' +
-        '~~哈哈哈~~\n' +
-        '\n' +
-        'header 1 | header 2\n' +
-        '---|---\n' +
-        'row 1 col 1 | row 1 col 2\n' +
-        'row 2 col 1 | row 2 col 2\n',
+        content: '',
         createdAt: '2019-01-01 00:00:01',
         sketch: '',
         tagId: 0,
