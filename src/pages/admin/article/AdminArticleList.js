@@ -4,24 +4,145 @@ import {
   Col,
   Breadcrumb,
   Table,
-  Divider,
+  // Divider,
   Form,
   Input,
   Select,
   Button,
   Pagination,
+  Drawer,
 } from 'antd';
 import {NavLink} from 'react-router-dom';
+import marked from 'marked';
+import hljs from 'highlight.js';
 import styles from '@/pages/admin/article/AdminArticleList.module.less';
 import connect from "@/store/connect";
+
+marked.setOptions({
+  renderer: new marked.Renderer(),
+  gfm: true,
+  tables: true,
+  breaks: true,
+  pedantic: false,
+  sanitize: false,
+  smartLists: false,
+  smartypants: false,
+  highlight: code => hljs.highlightAuto(code).value,
+});
 
 const FormItem = Form.Item;
 // const { TextArea } = Input;
 const {Option} = Select;
 
+
+const ArticleInfoForm = Form.create({
+  name: '文章信息表单',
+  onFieldsChange(props, changedFields) {
+    props.onChange(changedFields);
+  },
+  mapPropsToFields(props) {
+    return {
+      id: Form.createFormField({value: props.id,}),
+      title: Form.createFormField({value: props.title,}),
+      sketch: Form.createFormField({value: props.sketch,}),
+      content: Form.createFormField({value: props.content,}),
+      weight: Form.createFormField({value: props.weight,}),
+      tagId: Form.createFormField({value: props.tagId,}),
+      articleStatus: Form.createFormField({value: props.articleStatus,}),
+    };
+  },
+  onValuesChange(_, values) {
+    console.log(values);
+  },
+})((props) => {
+  const {getFieldDecorator} = props.form;
+  const output = marked(props.content);
+  return (
+    <Form layout="vertical" hideRequiredMark>
+      <Row gutter={16}>
+        <Col span={12}>
+          <Form.Item label="ID">
+            {getFieldDecorator('id', {
+              rules: [{required: false, message: 'ID'}],
+            })(<Input readOnly placeholder="ID"/>)}
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item label="标题">
+            {getFieldDecorator('title', {
+              rules: [{required: true, message: '请输入标题'}],
+            })(<Input placeholder="请输入标题"/>)}
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item label="简介">
+            {getFieldDecorator('sketch', {
+              rules: [{required: true, message: '请输入简介'}],
+            })(<Input placeholder="请输入简介"/>)}
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item label="标签">
+            {getFieldDecorator('tagId', {
+              rules: [{required: true, message: '请选择标签'}],
+            })(
+              <Select placeholder="请选择">
+                {props.tagOptions}
+              </Select>
+            )}
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item label="权重">
+            {getFieldDecorator('weight', {
+              rules: [{required: true, message: '请输入权重值'}],
+            })(<Input type="number" placeholder="请输入权重值"/>)}
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item label="状态">
+            {getFieldDecorator('articleStatus', {
+              rules: [{required: true, message: '请选择状态'}],
+            })(
+              <Select placeholder="请选择状态">
+                <Option value="1">1 草稿</Option>
+                <Option value="2">2 发布</Option>
+              </Select>
+            )}
+          </Form.Item>
+        </Col>
+
+      </Row>
+      <Row gutter={16}>
+        <Col span={12}>
+          <Form.Item label="内容">
+            {getFieldDecorator('content', {
+              rules: [
+                {
+                  required: true,
+                  message: '请输入内容',
+                },
+              ],
+            })(<Input.TextArea rows={50} placeholder="请输入内容"/>)}
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <div className={styles.contentHeader}>
+            <b>内容解析</b>
+          </div>
+          <div className={styles.contentContainer}>
+            <div dangerouslySetInnerHTML={{ __html: output }} />
+          </div>
+        </Col>
+      </Row>
+    </Form>
+  );
+});
+
+
 @Form.create()
-@connect(({adminArticle,tag}) => ({
-  adminArticle,tag
+@connect(({adminArticle, tag}) => ({
+  adminArticle, tag
 }))
 class AdminArticleList extends Component {
 
@@ -29,8 +150,55 @@ class AdminArticleList extends Component {
     super(props);
     this.state = {
       formValues: {},
+      drawVisible: false,
+      articleDetailFields:{
+        id: 0,
+        articleStatus: 1,
+        content: '测试数据\n===\n### 123123' +
+        '\n数据展示\n---\n数据展示\n> 哈哈哈 我就是看看\n' +
+        '\n' +
+        '~~哈哈哈~~\n' +
+        '\n' +
+        'header 1 | header 2\n' +
+        '---|---\n' +
+        'row 1 col 1 | row 1 col 2\n' +
+        'row 2 col 1 | row 2 col 2\n',
+        createdAt: '2019-01-01 00:00:01',
+        sketch: '',
+        tagId: 0,
+        title: '',
+        updatedAt: '2019-01-01 00:00:01',
+        weight: 1,
+        tag: {
+          createdAt: '2019-01-01 00:00:01',
+          id: 0,
+          tagName: 'blank',
+          tagStatus: 0,
+          updatedAt: '2019-01-01 00:00:00',
+          weight: 0,
+        },
+      }
     };
   }
+
+  showDrawer = (text, record) => {
+    this.setState({
+      drawVisible: true,
+
+    });
+    console.log(typeof(record));
+  };
+
+  onDrawerClose = () => {
+    this.setState({
+      drawVisible: false,
+    });
+  };
+
+  onDrawerSubmit = () => {
+
+  };
+
 
   componentDidMount() {
     const {dispatch} = this.props;
@@ -50,7 +218,7 @@ class AdminArticleList extends Component {
    */
   handleSearch = (e) => {
     e.preventDefault();
-    const { dispatch, form } = this.props;
+    const {dispatch, form} = this.props;
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       const values = {
@@ -69,7 +237,7 @@ class AdminArticleList extends Component {
   };
 
   handleFormReset = () => {
-    const { form, dispatch } = this.props;
+    const {form, dispatch} = this.props;
     form.resetFields();
     this.setState({
       formValues: {},
@@ -99,7 +267,17 @@ class AdminArticleList extends Component {
     return {pageNum, total, pageSize};
   };
 
-
+  handleArticleInfoFormChange = (changedFields) => {
+    this.setState(({ articleDetailFields }) => {
+      let dataObj = {};
+      for (let key in changedFields) {
+        dataObj[key] = changedFields[key].value;
+      }
+      return {
+        articleDetailFields: { ...articleDetailFields, ...dataObj},
+      }
+    });
+  };
 
   /**
    * 筛选表单
@@ -109,8 +287,8 @@ class AdminArticleList extends Component {
     const {
       form: {getFieldDecorator},
     } = this.props;
-    const tagList = this.props.tag.listData.lists;
 
+    const tagList = this.props.tag.listData.lists;
     const tagOptions = [];
     tagList.forEach(function (item) {
       tagOptions.push(
@@ -156,14 +334,66 @@ class AdminArticleList extends Component {
   }
 
 
+  renderDrawerForm() {
+    const articleInfoFields = this.state.articleDetailFields;
+    const tagList = this.props.tag.listData.lists;
+    const tagOptions = [];
+    tagList.forEach(function (item) {
+      tagOptions.push(
+        <Option value={item.id} key={item.id}>
+          {item.tagName}
+        </Option>
+      );
+    });
+    articleInfoFields.tagOptions = tagOptions;
+
+    return (
+      <Drawer
+        title="查看/编辑文章"
+        width={1000}
+        onClose={this.onDrawerClose}
+        visible={this.state.drawVisible}
+        style={{
+          overflow: 'auto',
+          height: 'calc(100% - 108px)',
+          paddingBottom: '108px',
+        }}
+      >
+        <Row gutter={16}>
+          <Col span={24}>
+            <ArticleInfoForm {...articleInfoFields} onChange={this.handleArticleInfoFormChange}/>
+          </Col>
+        </Row>
+        <div
+          style={{
+            position: 'absolute',
+            left: 0,
+            bottom: 0,
+            width: '100%',
+            borderTop: '1px solid #e9e9e9',
+            padding: '10px 16px',
+            background: '#fff',
+            textAlign: 'right',
+          }}
+        >
+          <Button onClick={this.onDrawerClose} style={{marginRight: 8}}>
+            Cancel
+          </Button>
+          <Button onClick={this.onDrawerSubmit} type="primary">
+            Submit
+          </Button>
+        </div>
+      </Drawer>
+    );
+  }
+
+
   render() {
     const {listData} = this.props.adminArticle;
     const articleList = listData.lists;
     const currentPage = listData.pageNum;
     const totalCnt = listData.total;
     const pageSize = listData.pageSize;
-
-    console.log(articleList);
 
     const columns = [{
       title: 'ID',
@@ -181,7 +411,7 @@ class AdminArticleList extends Component {
       title: '权重',
       dataIndex: 'weight',
       key: 'weight',
-    },{
+    }, {
       title: '发布时间',
       dataIndex: 'createdAt',
       key: 'createdAt',
@@ -190,10 +420,10 @@ class AdminArticleList extends Component {
       key: 'action',
       render: (text, record) => (
         <span>
-      <Button>查看 {record.name}</Button>
-      <Divider type="vertical"/>
-      <Button type="primary">编辑</Button>
-    </span>
+        {/*<Button>查看</Button>*/}
+          {/*<Divider type="vertical"/>*/}
+          <Button type="primary" onClick={() => this.showDrawer(text, record)}>查看/编辑</Button>
+      </span>
       ),
     }];
 
@@ -231,6 +461,10 @@ class AdminArticleList extends Component {
             </div>
           </div>
         </Col>
+
+        <div>
+          {this.renderDrawerForm()}
+        </div>
       </Row>
     );
   }

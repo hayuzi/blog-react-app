@@ -225,6 +225,9 @@ yarn add axios
 yarn add marked
 yarn add highlight.js
 
+# 或者使用
+yarn add react-markdown
+
 ```
 
 #### 自动打包并发布到 gh-pages 分支

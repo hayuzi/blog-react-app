@@ -5,6 +5,25 @@ export default {
   namespace: 'adminArticle',
 
   state: {
+    articleDetail: {
+      id: 0,
+      articleStatus: 1,
+      content: '',
+      createdAt: '2019-01-01 00:00:01',
+      sketch: '',
+      tagId: 0,
+      title: '',
+      updatedAt: '2019-01-01 00:00:01',
+      weight: 1,
+      tag: {
+        createdAt: '2019-01-01 00:00:01',
+        id: 0,
+        tagName: 'blank',
+        tagStatus: 0,
+        updatedAt: '2019-01-01 00:00:00',
+        weight: 0,
+      },
+    },
     listData: {
       lists: [],
       pageNum: 1,
