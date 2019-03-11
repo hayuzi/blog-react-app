@@ -215,7 +215,6 @@ class AdminTagList extends Component {
   onDrawerSubmit = () => {
     const data = {...this.state.tagDetailFields};
     delete data.tag;
-    console.log(data);
     const {dispatch} = this.props;
     if (data.id > 0) {
       dispatch({
