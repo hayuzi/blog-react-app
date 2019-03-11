@@ -31,8 +31,28 @@ marked.setOptions({
 });
 
 const FormItem = Form.Item;
-// const { TextArea } = Input;
 const {Option} = Select;
+
+
+const blankArticleInfo = {
+  id: 0,
+  articleStatus: 2,
+  content: '',
+  createdAt: '2019-01-01 00:00:01',
+  sketch: '',
+  tagId: 1,
+  title: '',
+  updatedAt: '2019-01-01 00:00:01',
+  weight: 1,
+  tag: {
+    createdAt: '2019-01-01 00:00:01',
+    id: 0,
+    tagName: 'blank',
+    tagStatus: 0,
+    updatedAt: '2019-01-01 00:00:00',
+    weight: 0,
+  },
+};
 
 
 const ArticleInfoForm = Form.create({
@@ -105,8 +125,8 @@ const ArticleInfoForm = Form.create({
               rules: [{required: true, message: '请选择状态'}],
             })(
               <Select placeholder="请选择状态">
-                <Option value="1">1 草稿</Option>
-                <Option value="2">2 发布</Option>
+                <Option value={1}>1 草稿</Option>
+                <Option value={2}>2 发布</Option>
               </Select>
             )}
           </Form.Item>
@@ -151,25 +171,7 @@ class AdminArticleList extends Component {
     this.state = {
       formValues: {},
       drawVisible: false,
-      articleDetailFields:{
-        id: 0,
-        articleStatus: 1,
-        content: '',
-        createdAt: '2019-01-01 00:00:01',
-        sketch: '',
-        tagId: 0,
-        title: '',
-        updatedAt: '2019-01-01 00:00:01',
-        weight: 1,
-        tag: {
-          createdAt: '2019-01-01 00:00:01',
-          id: 0,
-          tagName: 'blank',
-          tagStatus: 0,
-          updatedAt: '2019-01-01 00:00:00',
-          weight: 0,
-        },
-      }
+      articleDetailFields:{...blankArticleInfo}
     };
   }
 
@@ -216,6 +218,15 @@ class AdminArticleList extends Component {
         payload: {...data},
       });
     }
+    const values = this.state.formValues;
+    const paginationParams = this.getPaginationParams();
+    setTimeout(function () {
+      console.log('teteatrata');
+      dispatch({
+        type: 'adminArticle/fetchArticleList',
+        payload: {...values, ...paginationParams},
+      });
+    }, 1000);
 
     this.onDrawerClose();
   };
@@ -344,7 +355,7 @@ class AdminArticleList extends Component {
               <Button style={{marginLeft: 8}} onClick={this.handleFormReset}>
                 重置
               </Button>
-              <Button style={{marginLeft: 8}} icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
+              <Button style={{marginLeft: 8}} icon="plus" type="primary" onClick={() => this.showDrawer({}, {...blankArticleInfo})}>
                 新建
               </Button>
             </span>

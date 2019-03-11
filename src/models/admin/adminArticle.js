@@ -42,7 +42,6 @@ export default {
     },
     * addArticle({payload}, {call, put}) {
       const response = yield call(addArticle, payload);
-      yield call(this.fetchArticleList, payload);
       yield put({
         type: 'addArticleData',
         payload: response,
@@ -50,7 +49,6 @@ export default {
     },
     * editArticle({payload}, {call, put}) {
       const response = yield call(editArticle, payload);
-      yield call(this.fetchArticleList, payload);
       yield put({
         type: 'editArticleData',
         payload: response,
