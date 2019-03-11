@@ -1,4 +1,5 @@
 import {getArticleList, addArticle, editArticle} from '@/services/admin';
+import { message } from 'antd';
 
 export default {
 
@@ -72,15 +73,15 @@ export default {
       return {...state};
     },
     addArticleData(state, action) {
-      // if (action.payload.code === 200) {
-      //   return {...state};
-      // }
+      if (action.payload.code !== 200) {
+        message.error(action.payload.msg);
+      }
       return {...state};
     },
     editArticleData(state, action) {
-      // if (action.payload.code === 200) {
-      //   return {...state};
-      // }
+      if (action.payload.code === 200) {
+        message.error(action.payload.msg);
+      }
       return {...state};
     },
   },
