@@ -1,4 +1,4 @@
-import {getArticleList} from '@/services/admin';
+import {getArticleList, addArticle, edit} from '@/services/admin';
 
 export default {
 
@@ -34,6 +34,13 @@ export default {
 
   effects: {
     * fetchArticleList({payload}, {call, put}) {
+      const response = yield call(getArticleList, payload);
+      yield put({
+        type: 'articleListData',
+        payload: response,
+      });
+    },
+    * addArticle({payload}, {call, put}) {
       const response = yield call(getArticleList, payload);
       yield put({
         type: 'articleListData',

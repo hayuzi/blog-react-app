@@ -4,7 +4,7 @@ import {
   Col,
   Breadcrumb,
   Table,
-  // Divider,
+  Divider,
   Form,
   Input,
   Select,
@@ -52,7 +52,7 @@ const ArticleInfoForm = Form.create({
     };
   },
   onValuesChange(_, values) {
-    console.log(values);
+    // console.log(values);
   },
 })((props) => {
   const {getFieldDecorator} = props.form;
@@ -173,22 +173,50 @@ class AdminArticleList extends Component {
     };
   }
 
+  /**
+   * 打开文章详情表单抽屉
+   * @param text
+   * @param record
+   */
   showDrawer = (text, record) => {
     this.setState({
       drawVisible: true,
-
+      articleDetailFields: {
+        ...record,
+      }
     });
-    console.log(typeof(record));
   };
 
+  /**
+   * 关闭文章详情表单
+   */
   onDrawerClose = () => {
     this.setState({
       drawVisible: false,
     });
   };
 
+  /**
+   * 文章详情表单提交
+   */
   onDrawerSubmit = () => {
+    const data = {...this.state.articleDetailFields};
+    delete data.tag;
+    console.log(data);
+    const {dispatch} = this.props;
+    if (data.id > 0) {
+      dispatch({
+        type: 'adminArticle/editArticle',
+        payload: {...data},
+      });
+    } else {
+      dispatch({
+        type: 'adminArticle/addArticle',
+        payload: {...data},
+      });
+    }
 
+    this.onDrawerClose();
   };
 
 
@@ -412,9 +440,9 @@ class AdminArticleList extends Component {
       key: 'action',
       render: (text, record) => (
         <span>
-        {/*<Button>查看</Button>*/}
-          {/*<Divider type="vertical"/>*/}
-          <Button type="primary" onClick={() => this.showDrawer(text, record)}>查看/编辑</Button>
+          <Button type="primary" onClick={() => this.showDrawer(text, record)}>详情</Button>
+          <Divider type="vertical"/>
+          <Button type="danger">删除</Button>
       </span>
       ),
     }];
