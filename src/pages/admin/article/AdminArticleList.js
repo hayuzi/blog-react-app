@@ -12,6 +12,7 @@ import {
   Pagination,
   Drawer,
   Popconfirm,
+  Tag,
 } from 'antd';
 import {NavLink} from 'react-router-dom';
 import marked from 'marked';
@@ -453,6 +454,14 @@ class AdminArticleList extends Component {
       title: '权重',
       dataIndex: 'weight',
       key: 'weight',
+    },{
+      title: '状态',
+      key: 'articleStatus',
+      render: (text, record) => {
+        const color = record.articleStatus === 2 ? 'blue' : 'gold';
+        const show = record.articleStatus === 2 ? '发布' : '草稿';
+        return <Tag color={color}>{show}</Tag>;
+      }
     }, {
       title: '发布时间',
       dataIndex: 'createdAt',

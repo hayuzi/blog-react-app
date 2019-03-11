@@ -72,6 +72,12 @@ export default {
       }
       return {...state};
     },
+    deleteArticleData(state, action) {
+      if (action.payload.code === 200) {
+        message.error(action.payload.msg);
+      }
+      return {...state};
+    },
   },
 
 };
