@@ -18,6 +18,20 @@ export async function getArticleDetail(params) {
   return request(url, {});
 }
 
+export async function addArticle(params) {
+  return request("/admin/v1/articles", {params,  method: 'post'});
+}
+
+export async function editArticle(params) {
+  let url = "/admin/v1/articles";
+  if (params.id) {
+    url += "/" + params.id;
+  } else {
+    url += "/0"
+  }
+  return request(url, {params, method: 'put'});
+}
+
 export async function getAllTags(params) {
   return request('/admin/v1/tags/all', {params});
 }

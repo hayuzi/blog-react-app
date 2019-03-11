@@ -202,6 +202,7 @@ class AdminArticleList extends Component {
   onDrawerSubmit = () => {
     const data = {...this.state.articleDetailFields};
     delete data.tag;
+    delete data.tagOptions;
     console.log(data);
     const {dispatch} = this.props;
     if (data.id > 0) {
@@ -397,10 +398,10 @@ class AdminArticleList extends Component {
           }}
         >
           <Button onClick={this.onDrawerClose} style={{marginRight: 8}}>
-            Cancel
+            取消
           </Button>
           <Button onClick={this.onDrawerSubmit} type="primary">
-            Submit
+            保存
           </Button>
         </div>
       </Drawer>

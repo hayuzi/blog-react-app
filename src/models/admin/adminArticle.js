@@ -1,4 +1,4 @@
-import {getArticleList, addArticle, edit} from '@/services/admin';
+import {getArticleList, addArticle, editArticle} from '@/services/admin';
 
 export default {
 
@@ -41,9 +41,18 @@ export default {
       });
     },
     * addArticle({payload}, {call, put}) {
-      const response = yield call(getArticleList, payload);
+      const response = yield call(addArticle, payload);
+      yield call(this.fetchArticleList, payload);
       yield put({
-        type: 'articleListData',
+        type: 'addArticleData',
+        payload: response,
+      });
+    },
+    * editArticle({payload}, {call, put}) {
+      const response = yield call(editArticle, payload);
+      yield call(this.fetchArticleList, payload);
+      yield put({
+        type: 'editArticleData',
         payload: response,
       });
     },
@@ -62,6 +71,18 @@ export default {
           }
         };
       }
+      return {...state};
+    },
+    addArticleData(state, action) {
+      // if (action.payload.code === 200) {
+      //   return {...state};
+      // }
+      return {...state};
+    },
+    editArticleData(state, action) {
+      // if (action.payload.code === 200) {
+      //   return {...state};
+      // }
       return {...state};
     },
   },
