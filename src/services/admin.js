@@ -32,6 +32,17 @@ export async function editArticle(params) {
   return request(url, {params, method: 'put'});
 }
 
+export async function deleteArticle(params) {
+  let url = "/admin/v1/articles";
+  if (params.id) {
+    url += "/" + params.id;
+  } else {
+    url += "/0"
+  }
+  return request(url, {params, method: 'delete'});
+}
+
 export async function getAllTags(params) {
   return request('/admin/v1/tags/all', {params});
 }
+
