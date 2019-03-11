@@ -67,3 +67,18 @@ export async function deleteComment(params) {
   }
   return request(url, {params, method: 'delete'});
 }
+
+
+export async function getUserList(params) {
+  return request('/admin/v1/users', {params});
+}
+
+export async function deleteUser(params) {
+  let url = "/admin/v1/users";
+  if (params.id) {
+    url += "/" + params.id;
+  } else {
+    url += "/0"
+  }
+  return request(url, {params, method: 'delete'});
+}

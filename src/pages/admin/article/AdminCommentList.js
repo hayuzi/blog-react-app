@@ -19,28 +19,28 @@ import connect from "@/store/connect";
 
 const FormItem = Form.Item;
 
-const blankTagInfo = {
-  id: 0,
-  articleId: 1,
-  commentStatus: 1,
-  content: '',
-  user: {
-    id: 1,
-    username: '',
-    userType: 1,
-    email: ''
-  },
-  userId: 1,
-  mentionUser: {
-    id: 0,
-    username: '',
-    userType: 0,
-    email: ''
-  },
-  mentionUserId: 0,
-  createdAt: '2019-01-01 00:00:01',
-  updatedAt: '2019-01-01 00:00:01',
-};
+// const blankCommentInfo = {
+//   id: 0,
+//   articleId: 1,
+//   commentStatus: 1,
+//   content: '',
+//   user: {
+//     id: 1,
+//     username: '',
+//     userType: 1,
+//     email: ''
+//   },
+//   userId: 1,
+//   mentionUser: {
+//     id: 0,
+//     username: '',
+//     userType: 0,
+//     email: ''
+//   },
+//   mentionUserId: 0,
+//   createdAt: '2019-01-01 00:00:01',
+//   updatedAt: '2019-01-01 00:00:01',
+// };
 
 
 @Form.create()
@@ -54,7 +54,6 @@ class AdminCommentList extends Component {
     this.state = {
       formValues: {},
       drawVisible: false,
-      commentDetailFields: {...blankTagInfo}
     };
   }
 
@@ -139,20 +138,6 @@ class AdminCommentList extends Component {
   };
 
   /**
-   * 打开详情表单抽屉
-   * @param text
-   * @param record
-   */
-  showDrawer = (text, record) => {
-    this.setState({
-      drawVisible: true,
-      commentDetailFields: {
-        ...record,
-      }
-    });
-  };
-
-  /**
    * 关闭详情表单
    */
   onDrawerClose = () => {
@@ -197,10 +182,6 @@ class AdminCommentList extends Component {
               </Button>
               <Button style={{marginLeft: 8}} onClick={this.handleFormReset}>
                 重置
-              </Button>
-              <Button style={{marginLeft: 8}} icon="plus" type="primary"
-                      onClick={() => this.showDrawer({}, {...blankTagInfo})}>
-                新建
               </Button>
             </span>
           </Col>

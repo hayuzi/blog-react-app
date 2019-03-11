@@ -1,4 +1,5 @@
-import {adminLogin} from '@/services/admin';
+import {getUserList, deleteUser} from '@/services/admin';
+import {message} from "antd";
 
 export default {
 
@@ -15,9 +16,16 @@ export default {
 
   effects: {
     * fetchUserList({payload}, {call, put}) {  // eslint-disable-line
-      const response = yield call(adminLogin, payload);
+      const response = yield call(getUserList, payload);
       yield put({
         type: 'userListData',
+        payload: response,
+      });
+    },
+    * deleteUser({payload}, {call, put}) {  // eslint-disable-line
+      const response = yield call(deleteUser, payload);
+      yield put({
+        type: 'deleteUserData',
         payload: response,
       });
     },
@@ -25,7 +33,24 @@ export default {
 
   reducers: {
     userListData(state, action) {
-      return {...state, ...action.payload.data};
+      if (action.payload.code === 200) {
+        return {
+          ...state,
+          listData: {
+            lists: action.payload.data.lists,
+            pageNum: action.payload.data.pageNum,
+            total: action.payload.data.total,
+            pageSize: action.payload.data.pageSize,
+          }
+        };
+      }
+      return {...state};
+    },
+    deleteUserData(state, action) {
+      if (action.payload.code !== 200) {
+        message.error(action.payload.msg);
+      }
+      return {...state};
     },
   },
 
