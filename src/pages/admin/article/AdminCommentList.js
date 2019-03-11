@@ -8,11 +8,12 @@ import {
   Input,
   Button,
   Pagination,
+  Divider,
   Drawer,
-  Tag,
+  Tooltip,
 } from 'antd';
 import {NavLink} from 'react-router-dom';
-import styles from '@/pages/admin/article/AdminTagList.module.less';
+import styles from '@/pages/admin/article/AdminCommentList.module.less';
 import connect from "@/store/connect";
 
 const FormItem = Form.Item;
@@ -24,16 +25,16 @@ const blankTagInfo = {
   content: '',
   user: {
     id: 1,
-    username: "hayuzi",
+    username: '',
     userType: 1,
-    email: "hayuzi@163.com"
+    email: ''
   },
   userId: 1,
   mentionUser: {
     id: 0,
-    username: "",
+    username: '',
     userType: 0,
-    email: ""
+    email: ''
   },
   mentionUserId: 0,
   createdAt: '2019-01-01 00:00:01',
@@ -42,10 +43,10 @@ const blankTagInfo = {
 
 
 @Form.create()
-@connect(({adminTag}) => ({
-  adminTag
+@connect(({adminComment}) => ({
+  adminComment
 }))
-class AdminTagList extends Component {
+class AdminCommentList extends Component {
 
   constructor(props) {
     super(props);
@@ -59,7 +60,7 @@ class AdminTagList extends Component {
   componentDidMount() {
     const {dispatch} = this.props;
     dispatch({
-      type: 'adminTag/fetchTagList',
+      type: 'adminComment/fetchCommentList',
       payload: {},
     });
   }
@@ -82,7 +83,7 @@ class AdminTagList extends Component {
       });
 
       dispatch({
-        type: 'adminTag/fetchTagList',
+        type: 'adminComment/fetchCommentList',
         payload: values,
       });
     });
@@ -95,7 +96,7 @@ class AdminTagList extends Component {
       formValues: {},
     });
     dispatch({
-      type: 'adminTag/fetchTagList',
+      type: 'adminComment/fetchCommentList',
       payload: {},
     });
   };
@@ -105,7 +106,7 @@ class AdminTagList extends Component {
     const paginationParams = this.getPaginationParams();
     const {dispatch} = this.props;
     dispatch({
-      type: 'adminTag/fetchTagList',
+      type: 'adminComment/fetchCommentList',
       payload: {...values, ...paginationParams, pageNum},
     });
   };
@@ -115,13 +116,13 @@ class AdminTagList extends Component {
     const values = this.state.formValues;
     const paginationParams = this.getPaginationParams();
     dispatch({
-      type: 'adminTag/fetchTagList',
+      type: 'adminComment/fetchCommentList',
       payload: {...values, ...paginationParams},
     });
   };
 
   getPaginationParams = () => {
-    const {pageNum, total, pageSize} = this.props.adminTag.listData;
+    const {pageNum, total, pageSize} = this.props.adminComment.listData;
     return {pageNum, total, pageSize};
   };
 
@@ -152,25 +153,7 @@ class AdminTagList extends Component {
    * 详情表单提交
    */
   onDrawerSubmit = () => {
-    const data = {...this.state.commentDetailFields};
-    delete data.tag;
-    console.log(data);
-    const {dispatch} = this.props;
-    if (data.id > 0) {
-      dispatch({
-        type: 'adminTag/editTag',
-        payload: {...data},
-      });
-    } else {
-      dispatch({
-        type: 'adminTag/addTag',
-        payload: {...data},
-      });
-    }
-    setTimeout(() => {
-      this.handleRefreshList();
-    }, 500);
-    this.onDrawerClose();
+
   };
 
   /**
@@ -186,13 +169,13 @@ class AdminTagList extends Component {
       <Form onSubmit={this.handleSearch} layout="inline" className={styles.antAdvancedSearchForm}>
         <Row gutter={{md: 8, lg: 24, xl: 24}}>
           <Col md={8} sm={24}>
-            <FormItem label="标签ID" className={styles.antFormItem}>
-              {getFieldDecorator('id')(<Input placeholder="请输入"/>)}
+            <FormItem label="用户ID" className={styles.antFormItem}>
+              {getFieldDecorator('userId')(<Input placeholder="请输入"/>)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <FormItem label="标签名称" className={styles.antFormItem}>
-              {getFieldDecorator('tagName')(<Input placeholder="请输入"/>)}
+            <FormItem label="文章ID" className={styles.antFormItem}>
+              {getFieldDecorator('articleId')(<Input placeholder="请输入"/>)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
@@ -258,7 +241,7 @@ class AdminTagList extends Component {
 
 
   render() {
-    const {listData} = this.props.adminTag;
+    const {listData} = this.props.adminComment;
     const tagList = listData.lists;
     const currentPage = listData.pageNum;
     const totalCnt = listData.total;
@@ -269,21 +252,48 @@ class AdminTagList extends Component {
       dataIndex: 'id',
       key: 'id',
     }, {
-      title: '标签名称',
-      dataIndex: 'tagName',
-      key: 'tagName',
+      title: '文章ID',
+      dataIndex: 'articleId',
+      key: 'articleId',
     }, {
-      title: '权重',
-      dataIndex: 'weight',
-      key: 'weight',
-    }, {
-      title: '状态',
-      key: 'tagStatus',
+      title: '用户',
+      key: 'user',
       render: (text, record) => {
-        const color = record.tagStatus === 1 ? 'blue' : 'gold';
-        const show = record.tagStatus === 1 ? '正常' : '隐藏';
-        return <Tag color={color}>{show}</Tag>;
+        console.log(record);
+        return (
+          <div>
+            <span>{record.user.id}</span>
+            <Divider type="vertical"/>
+            <span>{record.user.username}</span>
+          </div>
+        );
       }
+    }, {
+      title: '内容',
+      key: 'content',
+      render: (text, record) => {
+        return (
+          <Tooltip title={record.content}>
+            <span>{record.content.slice(0, 20) + "..."}</span>
+          </Tooltip>
+        );
+      }
+    }, {
+      title: '被回复用户',
+      key: 'mentionUser',
+      render: (text, record) => {
+        return (
+          <div>
+            <span>{record.mentionUser.id}</span>
+            <Divider type="vertical"/>
+            <span>{record.mentionUser.username}</span>
+          </div>
+        );
+      }
+    }, {
+      title: '时间',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
     }, {
       title: '操作',
       key: 'action',
@@ -337,4 +347,4 @@ class AdminTagList extends Component {
   }
 }
 
-export default AdminTagList;
+export default AdminCommentList;

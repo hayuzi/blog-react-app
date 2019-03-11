@@ -54,4 +54,16 @@ export async function editTag(params) {
   return request(url, {params, method: 'put'});
 }
 
+export async function getCommentList(params) {
+  return request('/admin/v1/comments', {params});
+}
 
+export async function deleteComment(params) {
+  let url = "/admin/v1/comments";
+  if (params.id) {
+    url += "/" + params.id;
+  } else {
+    url += "/0"
+  }
+  return request(url, {params, method: 'delete'});
+}
