@@ -303,7 +303,6 @@ class AdminArticleList extends Component {
     const data = {...this.state.articleDetailFields};
     delete data.tag;
     delete data.tagOptions;
-    console.log(data);
     const {dispatch} = this.props;
     if (data.id > 0) {
       dispatch({
@@ -473,7 +472,7 @@ class AdminArticleList extends Component {
         <span>
           <Button type="primary" onClick={() => this.showDrawer(text, record)}>详情</Button>
           <Divider type="vertical"/>
-          <Popconfirm title="Are you sure delete this task?" onConfirm={() => this.handleDeleteRow(record.id)} okText="Yes" cancelText="No">
+          <Popconfirm title="确定要删除该条目吗?" onConfirm={() => this.handleDeleteRow(record.id)} okText="Yes" cancelText="No">
             <Button type="danger">删除</Button>
           </Popconfirm>
         </span>

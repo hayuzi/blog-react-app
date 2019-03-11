@@ -11,6 +11,7 @@ import {
   Divider,
   Drawer,
   Tooltip,
+  Popconfirm,
 } from 'antd';
 import {NavLink} from 'react-router-dom';
 import styles from '@/pages/admin/article/AdminCommentList.module.less';
@@ -109,6 +110,17 @@ class AdminCommentList extends Component {
       type: 'adminComment/fetchCommentList',
       payload: {...values, ...paginationParams, pageNum},
     });
+  };
+
+  handleDeleteRow = (id) => {
+    const {dispatch} = this.props;
+    dispatch({
+      type: 'adminComment/deleteComment',
+      payload: {id},
+    });
+    setTimeout(() => {
+      this.handleRefreshList();
+    }, 300);
   };
 
   handleRefreshList = () => {
@@ -259,7 +271,6 @@ class AdminCommentList extends Component {
       title: '用户',
       key: 'user',
       render: (text, record) => {
-        console.log(record);
         return (
           <div>
             <span>{record.user.id}</span>
@@ -272,9 +283,15 @@ class AdminCommentList extends Component {
       title: '内容',
       key: 'content',
       render: (text, record) => {
+        let show = '';
+        if (record.content.length > 20) {
+          show = record.content.slice(0, 20) + '...';
+        } else {
+          show = record.content
+        }
         return (
           <Tooltip title={record.content}>
-            <span>{record.content.slice(0, 20) + "..."}</span>
+            <span>{show}</span>
           </Tooltip>
         );
       }
@@ -299,7 +316,9 @@ class AdminCommentList extends Component {
       key: 'action',
       render: (text, record) => (
         <span>
-          <Button type="primary" onClick={() => this.showDrawer(text, record)}>详情</Button>
+          <Popconfirm title="确定要删除该条目吗?" onConfirm={() => this.handleDeleteRow(record.id)} okText="Yes" cancelText="No">
+            <Button type="danger">删除</Button>
+          </Popconfirm>
         </span>
       ),
     }];
