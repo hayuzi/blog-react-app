@@ -5,6 +5,7 @@ import Login from '../pages/admin/user/Login';
 import DashBoard from "@/pages/admin/dashboard/Dashboard";
 import AdminArticleList from "@/pages/admin/article/AdminArticleList";
 import AdminTagList from "@/pages/admin/article/AdminTagList";
+import AdminCommentList from "@/pages/admin/article/AdminCommentList";
 import AdminUserList from "@/pages/admin/user/AdminUserList";
 import BasicLayout from "@/components/layout/BasicLayout";
 import AdminLayout from "@/components/layout/AdminLayout";
@@ -26,6 +27,7 @@ const AdminLayoutBox = ({match}) => {
       <Switch>
         <Route exact path={`${match.url}/dashboard`} component={DashBoard}/>
         <Route exact path={`${match.url}/article/list`} component={AdminArticleList}/>
+        <Route exact path={`${match.url}/article/comments`} component={AdminCommentList}/>
         <Route exact path={`${match.url}/article/tags`} component={AdminTagList}/>
         <Route exact path={`${match.url}/user/list`} component={AdminUserList}/>
         <Route exact path="/404" component={NotFound}/>

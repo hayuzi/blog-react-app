@@ -100,6 +100,11 @@ class AdminLayout extends Component {
                 </NavLink>
               </Menu.Item>
               <Menu.Item key="2">
+                <NavLink to={{pathname: "/admin/article/comments"}}>
+                  <span>评论列表</span>
+                </NavLink>
+              </Menu.Item>
+              <Menu.Item key="3">
                 <NavLink to={{pathname: "/admin/article/tags"}}>
                   <span>标签列表</span>
                 </NavLink>
@@ -109,7 +114,7 @@ class AdminLayout extends Component {
               key="sub2"
               title={<span><Icon type="user"/><span>User</span></span>}
             >
-              <Menu.Item key="3">
+              <Menu.Item key="4">
                 <NavLink to={{pathname: "/admin/user/list"}}>
                   <span>用户列表</span>
                 </NavLink>
