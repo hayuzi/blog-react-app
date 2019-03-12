@@ -5,12 +5,14 @@ import Login from '../pages/admin/user/Login';
 import DashBoard from "@/pages/admin/dashboard/Dashboard";
 import AdminArticleList from "@/pages/admin/article/AdminArticleList";
 import AdminTagList from "@/pages/admin/article/AdminTagList";
+import AdminCommentList from "@/pages/admin/article/AdminCommentList";
 import AdminUserList from "@/pages/admin/user/AdminUserList";
 import BasicLayout from "@/components/layout/BasicLayout";
 import AdminLayout from "@/components/layout/AdminLayout";
 import IndexPage from "@/pages/IndexPage";
 import BlankPage from "@/pages/frontend/article/BlankPage";
 import ArticleDetail from "@/pages/frontend/article/ArticleDetail";
+import ChangePwd from "@/pages/frontend/user/ChangePwd";
 // import asyncComponent from "@/router/asyncComponent";
 // // react 按照路由异步加载组件
 // const IndexPage=asyncComponent(()=>import(/* webpackChunkName: "index-page" */"@/pages/IndexPage"));
@@ -26,6 +28,7 @@ const AdminLayoutBox = ({match}) => {
       <Switch>
         <Route exact path={`${match.url}/dashboard`} component={DashBoard}/>
         <Route exact path={`${match.url}/article/list`} component={AdminArticleList}/>
+        <Route exact path={`${match.url}/article/comments`} component={AdminCommentList}/>
         <Route exact path={`${match.url}/article/tags`} component={AdminTagList}/>
         <Route exact path={`${match.url}/user/list`} component={AdminUserList}/>
         <Route exact path="/404" component={NotFound}/>
@@ -45,6 +48,7 @@ const LayoutBox = ({match}) => {
         <Route exact path={`${match.url}/`} component={IndexPage}/>
         <Route exact path={`${match.url}/article`} component={ArticleDetail}/>
         <Route exact path={`${match.url}/blank`} component={BlankPage}/>
+        <Route exact path={`${match.url}/change-pwd`} component={ChangePwd}/>
         <Route exact path="/404" component={NotFound}/>
         <Route exact component={NotFound}/>
       </Switch>

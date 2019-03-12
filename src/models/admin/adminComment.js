@@ -1,4 +1,5 @@
-import {getArticleList} from '@/services/admin';
+import {getCommentList, deleteComment} from '@/services/admin';
+import {message} from 'antd';
 
 export default {
 
@@ -14,18 +15,35 @@ export default {
   },
 
   effects: {
-    * fetchArticleList({payload}, {call, put}) {
-      const response = yield call(getArticleList, payload);
+    * fetchCommentList({payload}, {call, put}) {
+      const response = yield call(getCommentList, payload);
       yield put({
-        type: 'articleListData',
+        type: 'commentListData',
         payload: response,
       });
+    },
+    * deleteComment({payload}, {call, put}) {
+      const response = yield call(deleteComment, payload);
+      if (response.code === 200) {
+        message.info("操作成功，已为您删除选中的标签");
+      }
     },
   },
 
   reducers: {
-    articleListData(state, action) {
-      return {...state, ...action.payload.data};
+    commentListData(state, action) {
+      if (action.payload.code === 200) {
+        return {
+          ...state,
+          listData: {
+            lists: action.payload.data.lists,
+            pageNum: action.payload.data.pageNum,
+            total: action.payload.data.total,
+            pageSize: action.payload.data.pageSize,
+          }
+        };
+      }
+      return {...state};
     },
   },
 

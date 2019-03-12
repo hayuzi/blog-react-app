@@ -33,3 +33,9 @@ export async function userRegister(params) {
 export async function userLogin(params) {
   return request('/api/v0/auth', { params, method: 'get'});
 }
+
+export async function userChangePwd(params) {
+  return request('/api/v1/auth/change-pwd', { params, method: 'put'});
+}
+
+

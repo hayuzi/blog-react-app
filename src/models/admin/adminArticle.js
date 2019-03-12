@@ -1,29 +1,11 @@
-import {getArticleList} from '@/services/admin';
+import {getArticleList, addArticle, editArticle, deleteArticle} from '@/services/admin';
+import { message } from 'antd';
 
 export default {
 
   namespace: 'adminArticle',
 
   state: {
-    articleDetail: {
-      id: 0,
-      articleStatus: 1,
-      content: '',
-      createdAt: '2019-01-01 00:00:01',
-      sketch: '',
-      tagId: 0,
-      title: '',
-      updatedAt: '2019-01-01 00:00:01',
-      weight: 1,
-      tag: {
-        createdAt: '2019-01-01 00:00:01',
-        id: 0,
-        tagName: 'blank',
-        tagStatus: 0,
-        updatedAt: '2019-01-01 00:00:00',
-        weight: 0,
-      },
-    },
     listData: {
       lists: [],
       pageNum: 1,
@@ -39,6 +21,36 @@ export default {
         type: 'articleListData',
         payload: response,
       });
+    },
+    * addArticle({payload}, {call, put}) {
+      const response = yield call(addArticle, payload);
+      if (response.code === 200)  {
+        message.info('文章添加成功！');
+      }
+      // yield put({
+      //   type: 'addArticleData',
+      //   payload: response,
+      // });
+    },
+    * editArticle({payload}, {call, put}) {
+      const response = yield call(editArticle, payload);
+      if (response.code === 200)  {
+        message.info('选中文章信息更新成功！');
+      }
+      // yield put({
+      //   type: 'editArticleData',
+      //   payload: response,
+      // });
+    },
+    * deleteArticle({payload}, {call, put}) {
+      const response = yield call(deleteArticle, payload);
+      if (response.code === 200)  {
+        message.info('成功删除选中的文章！');
+      }
+      // yield put({
+      //   type: 'deleteArticleData',
+      //   payload: response,
+      // });
     },
   },
 
@@ -57,6 +69,15 @@ export default {
       }
       return {...state};
     },
+    // addArticleData(state, action) {
+    //   return {...state};
+    // },
+    // editArticleData(state, action) {
+    //   return {...state};
+    // },
+    // deleteArticleData(state, action) {
+    //   return {...state};
+    // },
   },
 
 };

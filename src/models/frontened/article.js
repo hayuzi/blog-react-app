@@ -63,21 +63,23 @@ export default {
 
   reducers: {
     /**
-     *
      * @param state
      * @param action
-     * @returns {{listData: {lists: Array|*, pageNum: number|*, total: number|*|PaymentItem, pageSize: number|*}}}
+     * @returns {*}
      */
     changeArticleListData(state, action) {
-      return {
-        ...state,
-        listData: {
-          lists: action.payload.data.lists,
-          pageNum: action.payload.data.pageNum,
-          total: action.payload.data.total,
-          pageSize: action.payload.data.pageSize,
-        }
-      };
+      if (action.payload.code === 200) {
+        return {
+          ...state,
+          listData: {
+            lists: action.payload.data.lists,
+            pageNum: action.payload.data.pageNum,
+            total: action.payload.data.total,
+            pageSize: action.payload.data.pageSize,
+          }
+        };
+      }
+      return {...state};
     },
     /**
      * 获取商品详情

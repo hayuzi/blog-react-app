@@ -1,7 +1,9 @@
-import {userRegister, userLogin} from '@/services/api'
+import {userRegister, userLogin, userChangePwd} from '@/services/api'
+import {message} from "antd";
 import {adminLogin} from '@/services/admin'
 import Storage from '@/storage/Storage'
 import {USER_TYPE_NORAML} from "@/models/common/constMap";
+
 
 let userInfo = Storage.get("userInfo");
 if (userInfo == null) {
@@ -62,6 +64,12 @@ export default {
         payload: response,
       });
     },
+    * changePwd({payload}, {call, put}) {
+      const response = yield call(userChangePwd, payload);
+      if (response.code === 200) {
+        message.info('密码修改成功！');
+      }
+    },
   },
   reducers: {
     changeLoginStatus(state, action) {
@@ -75,7 +83,7 @@ export default {
     clearLoginData(state, action) {
       Storage.delete("userInfo");
       return {...state, ...action.payload};
-    }
+    },
   },
 
 };

@@ -8,20 +8,46 @@ import {
   Input,
   Button,
   Pagination,
+  Divider,
   Drawer,
+  Tooltip,
   Popconfirm,
 } from 'antd';
 import {NavLink} from 'react-router-dom';
-import styles from '@/pages/admin/user/AdminUserList.module.less';
+import styles from '@/pages/admin/article/AdminCommentList.module.less';
 import connect from "@/store/connect";
 
 const FormItem = Form.Item;
 
+// const blankCommentInfo = {
+//   id: 0,
+//   articleId: 1,
+//   commentStatus: 1,
+//   content: '',
+//   user: {
+//     id: 1,
+//     username: '',
+//     userType: 1,
+//     email: ''
+//   },
+//   userId: 1,
+//   mentionUser: {
+//     id: 0,
+//     username: '',
+//     userType: 0,
+//     email: ''
+//   },
+//   mentionUserId: 0,
+//   createdAt: '2019-01-01 00:00:01',
+//   updatedAt: '2019-01-01 00:00:01',
+// };
+
+
 @Form.create()
-@connect(({adminUser}) => ({
-  adminUser
+@connect(({adminComment}) => ({
+  adminComment
 }))
-class AdminUserList extends Component {
+class AdminCommentList extends Component {
 
   constructor(props) {
     super(props);
@@ -34,7 +60,7 @@ class AdminUserList extends Component {
   componentDidMount() {
     const {dispatch} = this.props;
     dispatch({
-      type: 'adminUser/fetchUserList',
+      type: 'adminComment/fetchCommentList',
       payload: {},
     });
   }
@@ -57,7 +83,7 @@ class AdminUserList extends Component {
       });
 
       dispatch({
-        type: 'adminUser/fetchUserList',
+        type: 'adminComment/fetchCommentList',
         payload: values,
       });
     });
@@ -70,7 +96,7 @@ class AdminUserList extends Component {
       formValues: {},
     });
     dispatch({
-      type: 'adminUser/fetchUserList',
+      type: 'adminComment/fetchCommentList',
       payload: {},
     });
   };
@@ -80,7 +106,7 @@ class AdminUserList extends Component {
     const paginationParams = this.getPaginationParams();
     const {dispatch} = this.props;
     dispatch({
-      type: 'adminUser/fetchUserList',
+      type: 'adminComment/fetchCommentList',
       payload: {...values, ...paginationParams, pageNum},
     });
   };
@@ -88,7 +114,7 @@ class AdminUserList extends Component {
   handleDeleteRow = (id) => {
     const {dispatch} = this.props;
     dispatch({
-      type: 'adminUser/deleteUser',
+      type: 'adminComment/deleteComment',
       payload: {id},
     });
     setTimeout(() => {
@@ -101,13 +127,13 @@ class AdminUserList extends Component {
     const values = this.state.formValues;
     const paginationParams = this.getPaginationParams();
     dispatch({
-      type: 'adminUser/fetchUserList',
+      type: 'adminComment/fetchCommentList',
       payload: {...values, ...paginationParams},
     });
   };
 
   getPaginationParams = () => {
-    const {pageNum, total, pageSize} = this.props.adminUser.listData;
+    const {pageNum, total, pageSize} = this.props.adminComment.listData;
     return {pageNum, total, pageSize};
   };
 
@@ -145,8 +171,8 @@ class AdminUserList extends Component {
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <FormItem label="用户名" className={styles.antFormItem}>
-              {getFieldDecorator('username')(<Input placeholder="请输入"/>)}
+            <FormItem label="文章ID" className={styles.antFormItem}>
+              {getFieldDecorator('articleId')(<Input placeholder="请输入"/>)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
@@ -178,6 +204,11 @@ class AdminUserList extends Component {
           paddingBottom: '108px',
         }}
       >
+        <Row gutter={16}>
+          <Col span={24}>
+
+          </Col>
+        </Row>
         <div
           style={{
             position: 'absolute',
@@ -203,7 +234,7 @@ class AdminUserList extends Component {
 
 
   render() {
-    const {listData} = this.props.adminUser;
+    const {listData} = this.props.adminComment;
     const tagList = listData.lists;
     const currentPage = listData.pageNum;
     const totalCnt = listData.total;
@@ -214,21 +245,47 @@ class AdminUserList extends Component {
       dataIndex: 'id',
       key: 'id',
     }, {
-      title: '用户名',
-      dataIndex: 'username',
-      key: 'username',
+      title: '文章ID',
+      dataIndex: 'articleId',
+      key: 'articleId',
     }, {
-      title: '邮箱',
-      dataIndex: 'email',
-      key: 'email',
-    }, {
-      title: '用户类型',
-      key: 'userType',
+      title: '用户',
+      key: 'user',
       render: (text, record) => {
         return (
-          <span>
-            <span>{record.userType === 1 ? '管理员' : '普通用户'}</span>
-          </span>
+          <div>
+            <span>{record.user.id}</span>
+            <Divider type="vertical"/>
+            <span>{record.user.username}</span>
+          </div>
+        );
+      }
+    }, {
+      title: '内容',
+      key: 'content',
+      render: (text, record) => {
+        let show = '';
+        if (record.content.length > 20) {
+          show = record.content.slice(0, 20) + '...';
+        } else {
+          show = record.content
+        }
+        return (
+          <Tooltip title={record.content}>
+            <span>{show}</span>
+          </Tooltip>
+        );
+      }
+    }, {
+      title: '被回复用户',
+      key: 'mentionUser',
+      render: (text, record) => {
+        return (
+          <div>
+            <span>{record.mentionUser.id}</span>
+            <Divider type="vertical"/>
+            <span>{record.mentionUser.username}</span>
+          </div>
         );
       }
     }, {
@@ -257,7 +314,7 @@ class AdminUserList extends Component {
               </NavLink>
             </Breadcrumb.Item>
             <Breadcrumb.Item>文章管理</Breadcrumb.Item>
-            <Breadcrumb.Item>用户列表</Breadcrumb.Item>
+            <Breadcrumb.Item>评论列表</Breadcrumb.Item>
           </Breadcrumb>
         </Col>
         <Col span={24}>
@@ -290,4 +347,4 @@ class AdminUserList extends Component {
   }
 }
 
-export default AdminUserList;
+export default AdminCommentList;

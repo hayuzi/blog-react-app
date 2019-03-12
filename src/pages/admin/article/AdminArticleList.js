@@ -4,13 +4,15 @@ import {
   Col,
   Breadcrumb,
   Table,
-  // Divider,
+  Divider,
   Form,
   Input,
   Select,
   Button,
   Pagination,
   Drawer,
+  Popconfirm,
+  Tag,
 } from 'antd';
 import {NavLink} from 'react-router-dom';
 import marked from 'marked';
@@ -31,8 +33,28 @@ marked.setOptions({
 });
 
 const FormItem = Form.Item;
-// const { TextArea } = Input;
 const {Option} = Select;
+
+
+const blankArticleInfo = {
+  id: 0,
+  articleStatus: 2,
+  content: '',
+  createdAt: '2019-01-01 00:00:01',
+  sketch: '',
+  tagId: 1,
+  title: '',
+  updatedAt: '2019-01-01 00:00:01',
+  weight: 1,
+  tag: {
+    createdAt: '2019-01-01 00:00:01',
+    id: 0,
+    tagName: 'blank',
+    tagStatus: 0,
+    updatedAt: '2019-01-01 00:00:00',
+    weight: 0,
+  },
+};
 
 
 const ArticleInfoForm = Form.create({
@@ -52,7 +74,7 @@ const ArticleInfoForm = Form.create({
     };
   },
   onValuesChange(_, values) {
-    console.log(values);
+    // console.log(values);
   },
 })((props) => {
   const {getFieldDecorator} = props.form;
@@ -105,8 +127,8 @@ const ArticleInfoForm = Form.create({
               rules: [{required: true, message: '请选择状态'}],
             })(
               <Select placeholder="请选择状态">
-                <Option value="1">1 草稿</Option>
-                <Option value="2">2 发布</Option>
+                <Option value={1}>1 草稿</Option>
+                <Option value={2}>2 发布</Option>
               </Select>
             )}
           </Form.Item>
@@ -115,7 +137,7 @@ const ArticleInfoForm = Form.create({
       </Row>
       <Row gutter={16}>
         <Col span={12}>
-          <Form.Item label="内容">
+          <Form.Item label="内容 (使用Markdown语法)">
             {getFieldDecorator('content', {
               rules: [
                 {
@@ -128,7 +150,7 @@ const ArticleInfoForm = Form.create({
         </Col>
         <Col span={12}>
           <div className={styles.contentHeader}>
-            <b>内容解析</b>
+            <b>内容预览</b>
           </div>
           <div className={styles.contentContainer}>
             <div dangerouslySetInnerHTML={{ __html: output }} />
@@ -151,46 +173,9 @@ class AdminArticleList extends Component {
     this.state = {
       formValues: {},
       drawVisible: false,
-      articleDetailFields:{
-        id: 0,
-        articleStatus: 1,
-        content: '',
-        createdAt: '2019-01-01 00:00:01',
-        sketch: '',
-        tagId: 0,
-        title: '',
-        updatedAt: '2019-01-01 00:00:01',
-        weight: 1,
-        tag: {
-          createdAt: '2019-01-01 00:00:01',
-          id: 0,
-          tagName: 'blank',
-          tagStatus: 0,
-          updatedAt: '2019-01-01 00:00:00',
-          weight: 0,
-        },
-      }
+      articleDetailFields:{...blankArticleInfo}
     };
   }
-
-  showDrawer = (text, record) => {
-    this.setState({
-      drawVisible: true,
-
-    });
-    console.log(typeof(record));
-  };
-
-  onDrawerClose = () => {
-    this.setState({
-      drawVisible: false,
-    });
-  };
-
-  onDrawerSubmit = () => {
-
-  };
-
 
   componentDidMount() {
     const {dispatch} = this.props;
@@ -240,8 +225,15 @@ class AdminArticleList extends Component {
     });
   };
 
-  handleModalVisible = (value) => {
-
+  handleDeleteRow = (id) => {
+    const {dispatch} = this.props;
+    dispatch({
+      type: 'adminArticle/deleteArticle',
+      payload: {id},
+    });
+    setTimeout(() => {
+      this.handleRefreshList();
+    }, 300);
   };
 
   handlePageChange = (pageNum) => {
@@ -251,6 +243,16 @@ class AdminArticleList extends Component {
     dispatch({
       type: 'adminArticle/fetchArticleList',
       payload: {...values, ...paginationParams, pageNum},
+    });
+  };
+
+  handleRefreshList = () => {
+    const {dispatch} = this.props;
+    const values = this.state.formValues;
+    const paginationParams = this.getPaginationParams();
+    dispatch({
+      type: 'adminArticle/fetchArticleList',
+      payload: {...values, ...paginationParams},
     });
   };
 
@@ -269,6 +271,54 @@ class AdminArticleList extends Component {
         articleDetailFields: { ...articleDetailFields, ...dataObj},
       }
     });
+  };
+
+  /**
+   * 打开文章详情表单抽屉
+   * @param text
+   * @param record
+   */
+  showDrawer = (text, record) => {
+    this.setState({
+      drawVisible: true,
+      articleDetailFields: {
+        ...record,
+      }
+    });
+  };
+
+  /**
+   * 关闭文章详情表单
+   */
+  onDrawerClose = () => {
+    this.setState({
+      drawVisible: false,
+    });
+  };
+
+  /**
+   * 文章详情表单提交
+   */
+  onDrawerSubmit = () => {
+    const data = {...this.state.articleDetailFields};
+    delete data.tag;
+    delete data.tagOptions;
+    const {dispatch} = this.props;
+    if (data.id > 0) {
+      dispatch({
+        type: 'adminArticle/editArticle',
+        payload: {...data},
+      });
+    } else {
+      dispatch({
+        type: 'adminArticle/addArticle',
+        payload: {...data},
+      });
+    }
+    setTimeout(() => {
+      this.handleRefreshList();
+    }, 1000);
+    this.onDrawerClose();
   };
 
   /**
@@ -315,7 +365,7 @@ class AdminArticleList extends Component {
               <Button style={{marginLeft: 8}} onClick={this.handleFormReset}>
                 重置
               </Button>
-              <Button style={{marginLeft: 8}} icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
+              <Button style={{marginLeft: 8}} icon="plus" type="primary" onClick={() => this.showDrawer({}, {...blankArticleInfo})}>
                 新建
               </Button>
             </span>
@@ -369,10 +419,10 @@ class AdminArticleList extends Component {
           }}
         >
           <Button onClick={this.onDrawerClose} style={{marginRight: 8}}>
-            Cancel
+            取消
           </Button>
           <Button onClick={this.onDrawerSubmit} type="primary">
-            Submit
+            保存
           </Button>
         </div>
       </Drawer>
@@ -403,6 +453,14 @@ class AdminArticleList extends Component {
       title: '权重',
       dataIndex: 'weight',
       key: 'weight',
+    },{
+      title: '状态',
+      key: 'articleStatus',
+      render: (text, record) => {
+        const color = record.articleStatus === 2 ? 'blue' : 'gold';
+        const show = record.articleStatus === 2 ? '发布' : '草稿';
+        return <Tag color={color}>{show}</Tag>;
+      }
     }, {
       title: '发布时间',
       dataIndex: 'createdAt',
@@ -412,10 +470,12 @@ class AdminArticleList extends Component {
       key: 'action',
       render: (text, record) => (
         <span>
-        {/*<Button>查看</Button>*/}
-          {/*<Divider type="vertical"/>*/}
-          <Button type="primary" onClick={() => this.showDrawer(text, record)}>查看/编辑</Button>
-      </span>
+          <Button type="primary" onClick={() => this.showDrawer(text, record)}>详情</Button>
+          <Divider type="vertical"/>
+          <Popconfirm title="确定要删除该条目吗?" onConfirm={() => this.handleDeleteRow(record.id)} okText="Yes" cancelText="No">
+            <Button type="danger">删除</Button>
+          </Popconfirm>
+        </span>
       ),
     }];
 

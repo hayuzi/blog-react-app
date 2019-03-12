@@ -23,12 +23,15 @@ export default {
 
   reducers: {
     gotAllTags(state, action) {
-      return {
-        ...state,
-        listData: {
-          lists: action.payload.data.lists,
-        }
-      };
+      if (action.payload.code === 200) {
+        return {
+          ...state,
+          listData: {
+            lists: action.payload.data.lists,
+          }
+        };
+      }
+      return {...state};
     },
   },
 

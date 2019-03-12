@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {Menu, Button, Form, Input, Row, Col, Icon, Drawer} from 'antd';
+import {Menu, Button, Form, Input, Row, Col, Icon, Drawer, Dropdown} from 'antd';
 import styles from './NavBar.module.less';
 import {NavLink} from 'react-router-dom';
 import logo from '@/logo.svg';
 import connect from "@/store/connect";
+
 
 @Form.create()
 @connect(({user}) => ({
@@ -43,7 +44,6 @@ class NavBar extends Component {
             ...values,
           },
         });
-        console.log('Received values of form: ', values);
         this.onClose();
       }
     });
@@ -60,7 +60,6 @@ class NavBar extends Component {
             ...values,
           },
         });
-        console.log('Received values of form: ', values);
         this.onClose();
       }
     });
@@ -77,8 +76,46 @@ class NavBar extends Component {
 
 
   render() {
-    const { getFieldDecorator } = this.props.form;
+    const {getFieldDecorator} = this.props.form;
     const user = this.props.user;
+
+    const UserDropDown = ({username, userType}) => {
+      return (
+        <Dropdown overlay={<UserDropDownMenu userType={userType}/>} style={{ marginRight: "8px"}}>
+          <span className={styles.dropDownContent}>
+            <Icon type="smile" theme="twoTone" style={{marginRight: "10px"}}/>
+            {username}
+          </span>
+        </Dropdown>
+      );
+    };
+
+    const UserDropDownMenu = ({userType}) => {
+      const AdminMenuItem = (
+        <Menu.Item key="0">
+          <Icon type="table"/>
+          <span>
+            <NavLink to={{pathname: '/admin/dashboard'}}>管理后台</NavLink>
+          </span>
+        </Menu.Item>
+      );
+      return (
+        <Menu>
+          {userType === 1 && AdminMenuItem}
+          <Menu.Item key="1">
+            <Icon type="user"/>
+            <span>
+              <NavLink to={{pathname: '/change-pwd'}}>修改密码</NavLink>
+            </span>
+          </Menu.Item>
+          <Menu.Divider/>
+          <Menu.Item key="2" onClick={this.onLogout}>
+            <Icon type="logout"/>
+            <span>退出登陆</span>
+          </Menu.Item>
+        </Menu>
+      )
+    };
 
     return (
       <div className={styles.navBar}>
@@ -98,13 +135,13 @@ class NavBar extends Component {
                     </b>
                   </NavLink>
                 </Menu.Item>
-                <Menu.Item key="navTags">
-                  <NavLink to={{pathname: "/admin/dashboard"}}>
-                    <b style={{fontSize: "16px"}}>
-                      &nbsp;&nbsp;后 台&nbsp;&nbsp;
-                    </b>
-                  </NavLink>
-                </Menu.Item>
+                {/*<Menu.Item key="navTags">*/}
+                {/*<NavLink to={{pathname: "/admin/dashboard"}}>*/}
+                {/*<b style={{fontSize: "16px"}}>*/}
+                {/*&nbsp;&nbsp;后 台&nbsp;&nbsp;*/}
+                {/*</b>*/}
+                {/*</NavLink>*/}
+                {/*</Menu.Item>*/}
               </Menu>
             </div>
 
@@ -121,8 +158,7 @@ class NavBar extends Component {
 
         <div className={styles.right}>
           <div className={styles.userInfo}>
-            {user.id > 0 && <span style={{marginRight:"8px"}}>{user.username}</span>}
-            {user.id > 0 && <Button type="danger"  onClick={this.onLogout}>注销</Button>}
+            {user.id > 0 && <UserDropDown username={user.username} userType={user.userType} />}
             {user.id === 0 && <Button type="dashed" onClick={this.showDrawer}>注册/登陆</Button>}
             <Drawer
               title="注册／登陆"
@@ -140,27 +176,35 @@ class NavBar extends Component {
                   <Col span={24}>
                     <Form.Item label="Username">
                       {getFieldDecorator('username', {
-                        rules: [{ required: true, message: '请输入您的用户名!' }],
+                        rules: [{required: true, message: '请输入您的用户名!'}],
                       })(
-                        <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="用户名" />
+                        <Input prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>} placeholder="用户名"/>
+                      )}
+                    </Form.Item>
+                  </Col>
+                  <Col span={24}>
+                    <Form.Item label="Password">
+                      {getFieldDecorator('pwd', {
+                        rules: [{required: true, message: '请输入密码!'}],
+                      })(
+                        <Input prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>} type="password"
+                               placeholder="密码"/>
                       )}
                     </Form.Item>
                   </Col>
                   <Col span={24}>
                     <Form.Item label="Email">
                       {getFieldDecorator('email', {
-                        rules: [{ required: false, message: '请输入您的邮箱' }],
-                      })(<Input placeholder="邮箱" />)}
+                        rules: [{required: false, message: '请输入您的邮箱'}],
+                      })(<Input placeholder="邮箱"/>)}
                     </Form.Item>
                   </Col>
+                </Row>
+                <Row>
                   <Col span={24}>
-                    <Form.Item label="Password">
-                      {getFieldDecorator('pwd', {
-                        rules: [{ required: true, message: '请输入密码!' }],
-                      })(
-                        <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="密码" />
-                      )}
-                    </Form.Item>
+                    <span className={styles.colorBlue}>
+                      登陆后方可评论
+                    </span>
                   </Col>
                 </Row>
               </Form>
@@ -176,10 +220,10 @@ class NavBar extends Component {
                   textAlign: 'right',
                 }}
               >
-                <Button onClick={this.onClose} style={{ marginRight: 8 }}>
+                <Button onClick={this.onClose} style={{marginRight: 8}}>
                   取消
                 </Button>
-                <Button onClick={this.onRegisterSubmit} type="dashed" style={{ marginRight: 8 }}>
+                <Button onClick={this.onRegisterSubmit} type="dashed" style={{marginRight: 8}}>
                   注册
                 </Button>
                 <Button onClick={this.onLoginSubmit} type="primary">

@@ -14,9 +14,6 @@ moment.locale('zh-cn');
 
 class App extends Component {
   render() {
-
-    console.log(store);
-
     return (
       <LocaleProvider locale={zh_CN}>
         <Provider store={store}>

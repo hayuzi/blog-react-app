@@ -30,6 +30,7 @@ class UserInfo extends Component {
       this.getIconTextListItem('link', 'https://github.com/hayuzi', 'https://github.com/hayuzi'),
       this.getIconTextListItem('environment', '上海'),
       this.getIconTextListItem('cluster', '后端研发'),
+      this.getIconTextListItem('mail', 'hayuzi@163.com'),
     ];
     return (
       <Row>
