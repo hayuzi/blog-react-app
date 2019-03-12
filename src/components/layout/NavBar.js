@@ -6,10 +6,6 @@ import logo from '@/logo.svg';
 import connect from "@/store/connect";
 
 
-
-
-
-
 @Form.create()
 @connect(({user}) => ({
   user,
@@ -83,30 +79,42 @@ class NavBar extends Component {
     const {getFieldDecorator} = this.props.form;
     const user = this.props.user;
 
-    // const userDropDownMenu = (
-    //   <Menu>
-    //     <Menu.Item key="0">
-    //       <Icon type="user"/>
-    //       <NavLink to={{pathname:'/change-pwd'}}>修改密码</NavLink>
-    //     </Menu.Item>
-    //     <Menu.Divider/>
-    //     <Menu.Item key="2" onClick={this.onLogout()}>
-    //       <Icon type="logout"/>
-    //       <span >退出登陆</span>
-    //     </Menu.Item>
-    //   </Menu>
-    // );
-    //
-    // const LogoutDropDown = ({}) => {
-    //   return (
-    //     <Dropdown overlay={userDropDownMenu} trigger={['click']}>
-    //   <span className={styles.dropDownLink}>
-    //     {user.username}
-    //   </span>
-    //     </Dropdown>
-    //   );
-    // };
+    const UserDropDown = ({username, userType}) => {
+      return (
+        <Dropdown overlay={<UserDropDownMenu userType={userType}/>} trigger={['click']} style={{ marginRight: "8px"}}>
+          <span className={styles.dropDownContent}>
+            {username}
+          </span>
+        </Dropdown>
+      );
+    };
 
+    const UserDropDownMenu = ({userType}) => {
+      const AdminMenuItem = (
+        <Menu.Item key="0">
+          <Icon type="table"/>
+          <span>
+            <NavLink to={{pathname: '/admin/dashboard'}}>管理后台</NavLink>
+          </span>
+        </Menu.Item>
+      );
+      return (
+        <Menu>
+          {userType === 1 && AdminMenuItem}
+          <Menu.Item key="1">
+            <Icon type="user"/>
+            <span>
+              <NavLink to={{pathname: '/change-pwd'}}>修改密码</NavLink>
+            </span>
+          </Menu.Item>
+          <Menu.Divider/>
+          <Menu.Item key="2" onClick={this.onLogout}>
+            <Icon type="logout"/>
+            <span>退出登陆</span>
+          </Menu.Item>
+        </Menu>
+      )
+    };
 
     return (
       <div className={styles.navBar}>
@@ -126,13 +134,13 @@ class NavBar extends Component {
                     </b>
                   </NavLink>
                 </Menu.Item>
-                <Menu.Item key="navTags">
-                  <NavLink to={{pathname: "/admin/dashboard"}}>
-                    <b style={{fontSize: "16px"}}>
-                      &nbsp;&nbsp;后 台&nbsp;&nbsp;
-                    </b>
-                  </NavLink>
-                </Menu.Item>
+                {/*<Menu.Item key="navTags">*/}
+                {/*<NavLink to={{pathname: "/admin/dashboard"}}>*/}
+                {/*<b style={{fontSize: "16px"}}>*/}
+                {/*&nbsp;&nbsp;后 台&nbsp;&nbsp;*/}
+                {/*</b>*/}
+                {/*</NavLink>*/}
+                {/*</Menu.Item>*/}
               </Menu>
             </div>
 
@@ -149,8 +157,7 @@ class NavBar extends Component {
 
         <div className={styles.right}>
           <div className={styles.userInfo}>
-            {user.id > 0 && <span style={{marginRight: "8px"}}>{user.username}</span>}
-            {user.id > 0 && <Button type="danger" onClick={this.onLogout}>注销</Button>}
+            {user.id > 0 && <UserDropDown username={user.username} userType={user.userType} />}
             {user.id === 0 && <Button type="dashed" onClick={this.showDrawer}>注册/登陆</Button>}
             <Drawer
               title="注册／登陆"
@@ -175,13 +182,6 @@ class NavBar extends Component {
                     </Form.Item>
                   </Col>
                   <Col span={24}>
-                    <Form.Item label="Email">
-                      {getFieldDecorator('email', {
-                        rules: [{required: false, message: '请输入您的邮箱'}],
-                      })(<Input placeholder="邮箱"/>)}
-                    </Form.Item>
-                  </Col>
-                  <Col span={24}>
                     <Form.Item label="Password">
                       {getFieldDecorator('pwd', {
                         rules: [{required: true, message: '请输入密码!'}],
@@ -190,6 +190,20 @@ class NavBar extends Component {
                                placeholder="密码"/>
                       )}
                     </Form.Item>
+                  </Col>
+                  <Col span={24}>
+                    <Form.Item label="Email">
+                      {getFieldDecorator('email', {
+                        rules: [{required: false, message: '请输入您的邮箱'}],
+                      })(<Input placeholder="邮箱"/>)}
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col span={24}>
+                    <span className={styles.colorBlue}>
+                      登陆后方可评论
+                    </span>
                   </Col>
                 </Row>
               </Form>

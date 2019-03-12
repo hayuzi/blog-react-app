@@ -53,7 +53,9 @@ class AdminLayout extends Component {
       <Menu>
         <Menu.Item key="0">
           <Icon type="user"/>
-          <span>个人中心</span>
+          <span>
+            <NavLink to={{pathname: "/"}}>前台首页</NavLink>
+          </span>
         </Menu.Item>
         <Menu.Divider/>
         <Menu.Item key="2" onClick={this.handleLogout}>
