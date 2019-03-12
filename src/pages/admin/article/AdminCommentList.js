@@ -314,7 +314,7 @@ class AdminCommentList extends Component {
               </NavLink>
             </Breadcrumb.Item>
             <Breadcrumb.Item>文章管理</Breadcrumb.Item>
-            <Breadcrumb.Item>标签列表</Breadcrumb.Item>
+            <Breadcrumb.Item>评论列表</Breadcrumb.Item>
           </Breadcrumb>
         </Col>
         <Col span={24}>

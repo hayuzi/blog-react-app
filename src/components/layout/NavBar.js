@@ -81,8 +81,9 @@ class NavBar extends Component {
 
     const UserDropDown = ({username, userType}) => {
       return (
-        <Dropdown overlay={<UserDropDownMenu userType={userType}/>} trigger={['click']} style={{ marginRight: "8px"}}>
+        <Dropdown overlay={<UserDropDownMenu userType={userType}/>} style={{ marginRight: "8px"}}>
           <span className={styles.dropDownContent}>
+            <Icon type="smile" theme="twoTone" style={{marginRight: "10px"}}/>
             {username}
           </span>
         </Dropdown>
