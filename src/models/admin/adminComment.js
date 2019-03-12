@@ -24,10 +24,9 @@ export default {
     },
     * deleteComment({payload}, {call, put}) {
       const response = yield call(deleteComment, payload);
-      yield put({
-        type: 'deleteCommentData',
-        payload: response,
-      });
+      if (response.code === 200) {
+        message.info("操作成功，已为您删除选中的标签");
+      }
     },
   },
 
@@ -43,12 +42,6 @@ export default {
             pageSize: action.payload.data.pageSize,
           }
         };
-      }
-      return {...state};
-    },
-    deleteTagData(state, action) {
-      if (action.payload.code !== 200) {
-        message.error(action.payload.msg);
       }
       return {...state};
     },

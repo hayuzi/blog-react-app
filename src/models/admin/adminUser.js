@@ -24,10 +24,9 @@ export default {
     },
     * deleteUser({payload}, {call, put}) {  // eslint-disable-line
       const response = yield call(deleteUser, payload);
-      yield put({
-        type: 'deleteUserData',
-        payload: response,
-      });
+      if (response.code === 200) {
+        message.info('用户信息删除成功');
+      }
     },
   },
 
@@ -43,12 +42,6 @@ export default {
             pageSize: action.payload.data.pageSize,
           }
         };
-      }
-      return {...state};
-    },
-    deleteUserData(state, action) {
-      if (action.payload.code !== 200) {
-        message.error(action.payload.msg);
       }
       return {...state};
     },

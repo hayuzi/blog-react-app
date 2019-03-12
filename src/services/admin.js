@@ -1,7 +1,7 @@
 import request from '@/utils/request';
 
 export async function adminLogin(params) {
-  return request('/api/v0/adminauth', {params});
+  return request('/api/v0/admin-auth', {params});
 }
 
 export async function getArticleList(params) {

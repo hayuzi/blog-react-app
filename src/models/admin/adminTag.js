@@ -24,17 +24,15 @@ export default {
     },
     * addTag({payload}, {call, put}) {
       const response = yield call(addTag, payload);
-      yield put({
-        type: 'addTagData',
-        payload: response,
-      });
+      if (response.code === 200) {
+        message.info('标签添加成功！');
+      }
     },
     * editTag({payload}, {call, put}) {
       const response = yield call(editTag, payload);
-      yield put({
-        type: 'editTagData',
-        payload: response,
-      });
+      if (response.code === 200) {
+        message.info('标签更新成功！');
+      }
     },
   },
 
@@ -50,18 +48,6 @@ export default {
             pageSize: action.payload.data.pageSize,
           }
         };
-      }
-      return {...state};
-    },
-    addTagData(state, action) {
-      if (action.payload.code !== 200) {
-        message.error(action.payload.msg);
-      }
-      return {...state};
-    },
-    editTagData(state, action) {
-      if (action.payload.code !== 200) {
-        message.error(action.payload.msg);
       }
       return {...state};
     },

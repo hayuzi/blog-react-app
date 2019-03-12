@@ -12,6 +12,7 @@ import AdminLayout from "@/components/layout/AdminLayout";
 import IndexPage from "@/pages/IndexPage";
 import BlankPage from "@/pages/frontend/article/BlankPage";
 import ArticleDetail from "@/pages/frontend/article/ArticleDetail";
+import ChangePwd from "@/pages/frontend/user/ChangePwd";
 // import asyncComponent from "@/router/asyncComponent";
 // // react 按照路由异步加载组件
 // const IndexPage=asyncComponent(()=>import(/* webpackChunkName: "index-page" */"@/pages/IndexPage"));
@@ -47,6 +48,7 @@ const LayoutBox = ({match}) => {
         <Route exact path={`${match.url}/`} component={IndexPage}/>
         <Route exact path={`${match.url}/article`} component={ArticleDetail}/>
         <Route exact path={`${match.url}/blank`} component={BlankPage}/>
+        <Route exact path={`${match.url}/change-pwd`} component={ChangePwd}/>
         <Route exact path="/404" component={NotFound}/>
         <Route exact component={NotFound}/>
       </Switch>

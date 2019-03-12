@@ -24,24 +24,33 @@ export default {
     },
     * addArticle({payload}, {call, put}) {
       const response = yield call(addArticle, payload);
-      yield put({
-        type: 'addArticleData',
-        payload: response,
-      });
+      if (response.code === 200)  {
+        message.info('文章添加成功！');
+      }
+      // yield put({
+      //   type: 'addArticleData',
+      //   payload: response,
+      // });
     },
     * editArticle({payload}, {call, put}) {
       const response = yield call(editArticle, payload);
-      yield put({
-        type: 'editArticleData',
-        payload: response,
-      });
+      if (response.code === 200)  {
+        message.info('选中文章信息更新成功！');
+      }
+      // yield put({
+      //   type: 'editArticleData',
+      //   payload: response,
+      // });
     },
     * deleteArticle({payload}, {call, put}) {
       const response = yield call(deleteArticle, payload);
-      yield put({
-        type: 'deleteArticleData',
-        payload: response,
-      });
+      if (response.code === 200)  {
+        message.info('成功删除选中的文章！');
+      }
+      // yield put({
+      //   type: 'deleteArticleData',
+      //   payload: response,
+      // });
     },
   },
 
@@ -60,24 +69,15 @@ export default {
       }
       return {...state};
     },
-    addArticleData(state, action) {
-      if (action.payload.code !== 200) {
-        message.error(action.payload.msg);
-      }
-      return {...state};
-    },
-    editArticleData(state, action) {
-      if (action.payload.code === 200) {
-        message.error(action.payload.msg);
-      }
-      return {...state};
-    },
-    deleteArticleData(state, action) {
-      if (action.payload.code === 200) {
-        message.error(action.payload.msg);
-      }
-      return {...state};
-    },
+    // addArticleData(state, action) {
+    //   return {...state};
+    // },
+    // editArticleData(state, action) {
+    //   return {...state};
+    // },
+    // deleteArticleData(state, action) {
+    //   return {...state};
+    // },
   },
 
 };
