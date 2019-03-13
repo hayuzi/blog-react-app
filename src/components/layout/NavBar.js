@@ -31,12 +31,14 @@ class NavBar extends Component {
       visible: false,
     });
   };
-
-
   onRegisterSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
+
+        if (values.email === undefined) {
+          delete values.email;
+        }
         const {dispatch} = this.props;
         dispatch({
           type: 'user/register',
