@@ -246,6 +246,10 @@ yarn add gh-pages --dev
 
 
 
+#### 发布之前需要修改 src/services/hosts.js文件 中的 api hosts 配置
+
+
+
 
 
 
