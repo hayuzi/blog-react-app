@@ -137,7 +137,9 @@ class ArticleList extends Component {
             renderItem={item => (
               <List.Item
                 key={item.title}
-                actions={[<IconText type="tag" text={item.tag.tagName}/>, <IconText type="clock-circle" text={item.createdAt}/>]}
+                actions={[<IconText type="tag" text={item.tag.tagName}/>,
+                  <IconText type="clock-circle" text={'发表于：' + item.createdAt}/>,
+                  <IconText type="clock-circle" text={'更新于：' + item.updatedAt}/>]}
               >
                 <List.Item.Meta
                   title={<NavLink to={{pathname: '/article', search: '?id=' + item.id}}>{item.title}</NavLink>}

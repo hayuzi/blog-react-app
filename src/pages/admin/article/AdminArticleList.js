@@ -466,6 +466,10 @@ class AdminArticleList extends Component {
       dataIndex: 'createdAt',
       key: 'createdAt',
     }, {
+      title: '更新时间',
+      dataIndex: 'updatedAt',
+      key: 'updatedAt',
+    }, {
       title: '操作',
       key: 'action',
       render: (text, record) => (

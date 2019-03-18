@@ -90,7 +90,11 @@ class ArticleDetail extends Component {
           <Tag color="green">{detail.tag.tagName}</Tag>
         </Col>
         <Col span={24}>
-          <div className={styles.extraInfo}>发布时间: {detail.createdAt}</div>
+          <div className={styles.extraInfo}>
+            <span>发表于: {detail.createdAt}</span>
+            <span>&nbsp;&nbsp;&nbsp;</span>
+            <span>更新于: {detail.createdAt}</span>
+          </div>
         </Col>
         <Col span={24} className={styles.extraInfo}>
           <span>{detail.sketch}</span>
