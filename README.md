@@ -205,7 +205,6 @@ yarn add axios
 ```
 yarn add marked
 yarn add highlight.js
-
 # 或者使用
 yarn add react-markdown
 
@@ -221,7 +220,7 @@ yarn add gh-pages --dev
 
 
 #### 基于react-create-app实现组件异步加载
-此处的webpack配置已经默认配置了，需要在router加载处处理异步倒入
+此处的webpack配置已经默认配置了，需要在router加载处处理异步导入
 ```
 ```
 

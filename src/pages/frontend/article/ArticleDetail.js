@@ -8,6 +8,7 @@ import connect from '@/store/connect';
 import {parseQueryString} from "@/utils/url";
 import styles from '@/pages/frontend/article/ArticleDetail.module.less';
 import 'highlight.js/styles/atom-one-dark.css';
+// import loadJS from '@/utils/loadjs/loadjs';
 
 marked.setOptions({
   renderer: new marked.Renderer(),
@@ -73,6 +74,11 @@ class ArticleDetail extends Component {
     }
   }
 
+  appendMathjaxSupport = () => {
+    // "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"
+    // let jsMathjax   = 'https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS_CHTML';
+    // loadJS(jsMathjax).then(function(msg){});
+  };
 
   render() {
     const {article} = this.props;

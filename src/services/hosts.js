@@ -1,2 +1,2 @@
-const hosts = "http://blogapi.acyuz.com";
+const hosts = "https://blogapi.acyuz.com";
 export default hosts;
