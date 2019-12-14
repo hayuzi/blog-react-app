@@ -87,6 +87,7 @@ export default function request(url, option) {
       const msg401 = "Request failed with status code 401";
       if (err.message === msg401) {
         message.error("请先登陆再操作！");
+        Storage.delete("userInfo");
       } else {
         message.error(err.message);
       }

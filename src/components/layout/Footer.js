@@ -7,7 +7,7 @@ class Footer extends Component {
       <div className={ styles.container }>
         <div className= { styles.content }>
           <div className={ styles.icp }>
-            <a href="http://beian.miit.gov.cn" target="_blank">
+            <a href="http://beian.miit.gov.cn" target="_blank" rel="noopener noreferrer" >
               苏ICP备17049372号
             </a>
           </div>
