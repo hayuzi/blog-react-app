@@ -48,6 +48,7 @@ class AdminLayout extends Component {
 
   render() {
     const {user} = this.props;
+    const path = this.props.location.pathname;
 
     const AdminInfo = (
       <Menu>
@@ -58,7 +59,7 @@ class AdminLayout extends Component {
           </span>
         </Menu.Item>
         <Menu.Divider/>
-        <Menu.Item key="2" onClick={this.handleLogout}>
+        <Menu.Item key="logout" onClick={this.handleLogout}>
           <Icon type="logout"/>
           <span>退出登陆</span>
         </Menu.Item>
@@ -88,40 +89,41 @@ class AdminLayout extends Component {
             theme="dark"
             mode="inline"
             defaultSelectedKeys={['dashboard']}
-            // defaultOpenKeys={['sub1']}
+            selectedKeys={[path]}
+            // defaultOpenKeys={[dashboard]}
             style={{borderRight: 0}}
           >
-            <Menu.Item key="dashboard">
+            <Menu.Item key="/admin/dashboard">
               <NavLink to={{pathname: "/admin/dashboard"}}>
                 <Icon type="pie-chart"/>
                 <span>dashboard</span>
               </NavLink>
             </Menu.Item>
             <SubMenu
-              key="sub1"
+              key="article"
               title={<span><Icon type="book"/><span>文章管理</span></span>}
             >
-              <Menu.Item key="1">
+              <Menu.Item key="/admin/article/list">
                 <NavLink to={{pathname: "/admin/article/list"}}>
                   <span>文章列表</span>
                 </NavLink>
               </Menu.Item>
-              <Menu.Item key="2">
+              <Menu.Item key="/admin/article/comments">
                 <NavLink to={{pathname: "/admin/article/comments"}}>
                   <span>评论列表</span>
                 </NavLink>
               </Menu.Item>
-              <Menu.Item key="3">
+              <Menu.Item key="/admin/article/tags">
                 <NavLink to={{pathname: "/admin/article/tags"}}>
                   <span>标签列表</span>
                 </NavLink>
               </Menu.Item>
             </SubMenu>
             <SubMenu
-              key="sub2"
+              key="user"
               title={<span><Icon type="user"/><span>用户管理</span></span>}
             >
-              <Menu.Item key="4">
+              <Menu.Item key="/admin/user/list">
                 <NavLink to={{pathname: "/admin/user/list"}}>
                   <span>用户列表</span>
                 </NavLink>
